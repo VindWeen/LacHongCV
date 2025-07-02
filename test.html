@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thông tin cá nhân - Full Layout</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f6fb;
+      margin: 0;
+      padding-top: 80px;
+    }
+
+    /* === Header === */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      background: linear-gradient(to right, #50b4ff, #005baa);
+      color: #fff;
+      padding: 16px 30px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+
+    .site-header img {
+      padding-left: 100px;
+      height: 50px;
+      width: 200px;
+    }
+
+    .site-header .header-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* === Layout === */
+    .main-wrapper {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 5px;
+      padding: 20px;
+    }
+
+    .left, .right {
+      width: 250px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 10px;
+      min-height: 300px;
+    }
+
+    .left-banner, .right-banner {
+      padding-top: 30px;
+      margin-bottom: 10px;
+    }
+
+    .middle {
+      flex: 1;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 5px;
+    }
+
+    /* === Profile Card === */
+    .profile-section {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+
+    .profile-left {
+      width: 200px;
+      text-align: center;
+    }
+
+    .profile-left img {
+      width: 120px;
+      border-radius: 50%;
+    }
+
+    .profile-name {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .profile-email {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .profile-note {
+      font-size: 12px;
+      color: #4CAF50;
+      margin-top: 5px;
+    }
+
+    .profile-right h3 {
+      margin-top: 0;
+      color: #0d47a1;
+    }
+
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    textarea,
+    select {
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1.5px solid #cfd8dc;
+      border-radius: 8px;
+      outline: none;
+      background-color: #f9fcff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+      background-color: #ffffff;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-main {
+      width: 100px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0d47a1;
+      margin: 30px 0 10px 0;
+      border-bottom:2px solid #bbdefb;
+      padding-bottom: 4px;
+      letter-spacing: 1px;
+    }
+    .info-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    .header-title {
+      padding-left: 330px;
+    }
+    .info-table td:first-child {
+      font-weight: bold;
+      width: 150px;
+      background: #f7f7f7;
+    }
+    #awardList li {
+    background: #f1f6fb; /* màu nền nhẹ */
+    border: 1px solid #cfd8dc;
+    border-radius: 6px;
+    padding: 20px 12px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    transition: background 0.3s;
+  }
+  #awardList li:hover {
+    background: #e3f2fd; /* màu hover */
+  }
+  .post {
+    background: #f1f6fb;
+    border: 1px solid #cfd8dc;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
+  }
+  .post:hover {
+    background: #e3f2fd;
+  }
+  .post h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+    color: #0d47a1;
+  }
+  .post p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+    /* === Footer === */
+    .site-footer {
+  background: linear-gradient(to right, #50b4ff, #005baa);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Giữ icon logo và text canh giữa */
+  padding: 10px 30px;  /* Giảm padding trên dưới */
+  flex-wrap: wrap;
+}
+
+.site-footer .footer-left img {
+  width: 150px;
+  height: auto;
+  padding-left: 130px;
+
+}
+
+.site-footer .footer-center {
+  max-width: 500px;
+  line-height: 1.4; /* Dòng sát hơn */
+  font-size: 14px; /* Chữ nhỏ hơn một chút nếu cần */
+}
+
+.site-footer .footer-center p {
+  margin: 4px 0; /* Giảm khoảng cách giữa các dòng */
+  font-size: 20px;
+  font-weight: bold; /* Giữ chữ đậm */
+}
+
+.site-footer .footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 10px; /* Khoảng cách icon nhỏ lại */
+  margin-bottom: 6px;
+}
+
+.footer-icons span {
+  font-size: 12px;
+}
+
+.footer-right img {
+  max-width: 120px; /* Nếu cần, chỉnh icon nhỏ lại */
+}
+
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <img src="https://raw.githubusercontent.com/VindWeen/Image/refs/heads/main/Logo_LHU_ASU_Viet.png" alt="Đại học Lạc Hồng">
+    <div style="text-align: center;">
+      <div class="header-title">Trường Đại học Lạc Hồng</div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <div class="main-wrapper">
+    <!-- Left Banner -->
+    <div class="left">
+      <div class="left-banner">
+        <img src="./poster_left.jpg" style="width:100%;border-radius:8px; height:1050px;">
+      </div>
+      <!-- <div class="left-banner">
+        <img src="./poster_2.png" style="width:100%;border-radius:8px;">
+      </div>
+      <div class="left-banner">
+        <img src="./poster_l3.png" style="width:100%;border-radius:8px;">
+      </div> -->
+    </div>
+
+    <!-- Middle -->
+    <div class="middle">
+      <div class="profile-section">
+        <div class="profile-left">
+          <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
+          <div class="profile-name" id="profileName">Họ và Tên</div>
+          <div class="profile-email" id="profileEmail">Email</div>
+          <div class="profile-note">Được định danh bởi VNeID</div>
+        </div>
+
+        <div class="profile-right">
+          <h3>A. Thông tin cá nhân</h3>
+          <form class="profile-form" id="infoForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Họ và tên*</label>
+                <input type="text" id="fullName" required>
+              </div>
+              <div class="form-group">
+                <label>Ngày sinh*</label>
+                <input type="date" id="dob" required>
+              </div>
+              <div class="form-col">
+              <label>Giới tính*</label>
+              <select id="gender" required>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+              </select>
+          </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Số CCCD*</label>
+                <input type="text" id="cccd" required>
+              </div>
+              <div class="form-group">
+                <label>Email*</label>
+                <input type="email" id="email" required>
+              </div>
+              <div class="form-group">
+                <label>Số điện thoại*</label>
+                <input type="text" id="phone" required>
+              </div>
+            </div>
+            <div style="text-align: center;">
+              <button type="button" class="btn-main" id="btnSave">Lưu</button>
+            </div>
+          </form>
+          <div id="infoTableContainer"></div>
+        </div>
+        
+      </div>
+      <div class="list-section">
+    <div class="section-title">B. Công bố khoa học</div>
+    <form id="postForm" style="padding-bottom: 15px;">
+      <div class="form-row">
+        <div class="form-col">
+          <input type="text" id="title" placeholder="Tiêu đề bài đăng" required />
+        </div>
+        <div class="form-col">
+          <textarea id="content" rows="2" placeholder="Nội dung bài đăng" required></textarea>
+        </div>
+        <div class="form-col" style="align-items: flex-end;">
+          <button type="submit" class="btn-main" style="padding:10px 20px; width: 200px;">Thêm bài đăng</button>
+        </div>
+      </div>
+    </form>
+    <div id="postList"></div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="button" class="btn-main" id="btnSavePosts" style="width: 150px;">Lưu bài đăng</button>
+    </div>
+  </div>
+
+  <div class="list-section">
+    <div class="section-title">C. Giải thưởng</div>
+    <form id="awardForm">
+      <div class="form-row">
+        <div class="form-col">
+          <input type="text" id="awardTitle" placeholder="Tên giải thưởng" required />
+        </div>
+        <div class="form-col">
+          <input type="text" id="awardYear" placeholder="Năm nhận" required />
+        </div>
+        <div class="form-col">
+          <select id="awardLevel" required style="color: rgb(104, 103, 103);">
+            <option value="">Chọn trình độ</option>
+            <option value="Cử nhân">Cử nhân</option>
+            <option value="Thạc sĩ">Thạc sĩ</option>
+            <option value="Tiến sĩ">Tiến sĩ</option>
+          </select>
+        </div>
+        <div class="form-col" style="align-items: flex-end;">
+          <button type="submit" class="btn-main" style="padding:10px 20px; width: 200px;">Thêm giải thưởng</button>
+        </div>
+      </div>
+    </form>
+    <div id="awardList" style="padding-top: 15px;"></div>
+    
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+      
+    </div>
+  <div style="text-align: center; margin-top: 10px; display: flex; gap: 40px; padding-left: 290px; size: 50px;">
+    <button type="button" class="btn-main" id="btnSaveAwards" style="width: 150px;">Lưu giải thưởng</button>
+    <button type="button" class="btn-main" onclick="toWord()" style="width: 150px;">In ra file Word</button>
+  </div>  
+    </div>
+
+    <!-- Right Banner -->
+    <div class="right">
+      <div class="right-banner">
+        <img src="./poster_right.jpg" style="width:100%;border-radius:8px; height:1100px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <img src="https://github.com/VindWeen/Image/blob/main/Logo_white_Vi.png?raw=true" alt="Logo Lạc Hồng" style=" width: 200px; padding-top: 0px;">
+    </div>
+    <div class="footer-center" style="font-weight: bold;">
+      <p>Địa chỉ: Số 10, Huỳnh Văn Nghệ, P. Bửu Long, Tp. Biên Hòa - Tỉnh Đồng Nai</p>
+      <p>Điện thoại: 0251 3952 778</p>
+      <p>Email: lachong@lhu.edu.vn</p>
+      <p>© 2025 Đại học Lạc Hồng</p>
+    </div>
+    <div class="footer-right">
+      <div class="logo-lachong" style="display: flex;">
+        <a href="https://me.lhu.edu.vn/">
+        <img src="https://api.lhu.edu.vn/MeCDN/img/me-logo.png" alt="App Logo" style="width:40px; margin:10px 0;margin-right: 30px;">
+        </a>
+        <a href="https://learn.lhu.edu.vn/my/">
+        <img src="https://github.com/VindWeen/Image/blob/main/Logo_LHU_ASU_Viet.png?raw=true" alt="" style="width: 100px; height: 40px; "></a>
+      </div>
+      <a href="https://apps.apple.com/us/app/me-app/id1278107318?l=vi"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" style="width:140px; padding-right: 50px;"></a>
+    </div>
+  </footer>
+  <script src="test.js"></script>
+</body>
+</html>
