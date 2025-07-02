@@ -42,8 +42,7 @@
     <div class="loader" id="loader" style="display:none">
         <div class="loader-inner"
             style="width: 100vw; height: 100vh;display: flex; justify-content: center; align-items: center;">
-            <img src="https://e-services.nafosted.gov.vn/images/nafosted_loading2.gif"
-                style="margin-top:120px; width: 400px; ">
+            <img src="./gif.gif">
         </div>
     </div>
     <div class="content" style="display: flex;align-items: center;justify-content: center;" id="content">
@@ -322,38 +321,43 @@
         // --- Các hàm xử lý Đăng ký và Đăng nhập bằng LocalStorage (DEMO) ---
 
         function handle_login_client() {
-            var email = $('#email_login').val();
-            var password = $('#password_login').val();
+  var email = $('#email_login').val().trim().toLowerCase();
+  var password = $('#password_login').val();
 
-            // Kiểm tra rỗng
-            if (!email || !password) {
-                alert('Vui lòng điền đầy đủ email và mật khẩu!');
-                return false;
-            }
+  // Kiểm tra rỗng
+  if (!email || !password) {
+    alert('Vui lòng điền đầy đủ email và mật khẩu!');
+    return false;
+  }
 
-            // Lấy danh sách người dùng từ localStorage
-            var users = JSON.parse(localStorage.getItem('users')) || {};
+  // Lấy danh sách người dùng từ localStorage
+  var users = JSON.parse(localStorage.getItem('users')) || {};
 
-            // Kiểm tra tài khoản
-            if (users[email] && users[email].password === password) {
-                view_loader(); // Hiển thị loader
-                setTimeout(function () {
-                    hide_loader(); // Ẩn loader
-                    alert('Đăng nhập thành công!');
-                    // Lưu trạng thái đăng nhập (để dashboard biết)
-                    localStorage.setItem('loggedInUser', email);
-                    window.location.href = 'my-app.html'; // Chuyển hướng đến trang dashboard
-                }, 1000); // Giả lập độ trễ
-            } else {
-                alert('Email hoặc mật khẩu không đúng!');
-            }
-        }
+  // Kiểm tra tài khoản
+  if (users[email] && users[email].password === password) {
+    var role = users[email].role; // Lấy role đã lưu
 
-        // Kiểm tra trạng thái đăng nhập khi tải trang
-        $(document).ready(function () {
-            // Bạn có thể giữ hoặc xóa dòng này nếu không muốn tự động hiện login_area khi tải trang
-            // $('#login_area').show(); 
-        });
+    view_loader(); // Hiển thị loader
+
+    setTimeout(function () {
+      hide_loader(); // Ẩn loader
+      alert('Đăng nhập thành công!');
+      // Lưu trạng thái đăng nhập (tuỳ bạn)
+      localStorage.setItem('loggedInUser', email);
+
+      // Điều hướng theo role
+      if (role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'test.html';
+      }
+    }, 1000); // Giả lập độ trễ
+
+  } else {
+    alert('Email hoặc mật khẩu không đúng!');
+  }
+}
+
 
     </script>
 
