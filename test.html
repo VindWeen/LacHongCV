@@ -25,6 +25,7 @@
         <img src="./poster_left.jpg" style="width:100%; height: 100%; object-fit: cover; border-radius:8px;"
           alt="Left Banner">
       </div>
+      
       <!-- <div class="left-banner">
         <img src="./poster_2.png" style="width:100%;border-radius:8px;">
       </div>
@@ -41,6 +42,9 @@
           <div class="profile-name" id="profileName">Họ và Tên</div>
           <div class="profile-email" id="profileEmail">Email</div>
           <div class="profile-note">Được định danh bởi VNeID</div>
+          <div style="margin-top: 10px;">
+            <button onclick="window.location='index.html'">Đăng xuất</button>
+          </div>
         </div>
 
         <div class="profile-right">
@@ -403,7 +407,7 @@
 
 
       <div style="text-align: center; margin-top: 10px; display: flex; gap: 40px; justify-content: center; size: 50px;">
-        <button type="button" class="btn-main" onclick="toWord()" style="width: 150px;">In ra file Word</button>
+        <button type="button" class="btn-main" onclick="toWord()" id="btnExportWord" style="width: 150px;">In ra file Word</button>
       </div>
     </div>
     
@@ -411,12 +415,22 @@
     <!-- Right Banner -->
     <div class="right">
       <div class="right-banner">
-        <img src="./poster_right.jpg" style="width:100%; height: 100%; object-fit: cover; border-radius:8px;"
-          alt="Right Banner">
+        <h3 style="text-align: center;">Danh sách tài khoản</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Chức vụ</th>
+              <th>Trang cá nhân</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBodyRight">
+            <!-- Dữ liệu sẽ được render bằng JS -->
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-
+</div>
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-left">
