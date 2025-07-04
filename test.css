@@ -251,12 +251,15 @@ select:focus {
   vertical-align: middle;
 }
 
+
 .info-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;   /* dữ liệu cũng canh giữa */
   vertical-align: middle;
 }
+
+
 
 .info-table tbody tr:hover {
   background: #e3f2fd;  /* hiệu ứng hover giống bảng ngoại ngữ */
@@ -382,3 +385,57 @@ select:focus {
       max-width: 120px;
       /* Nếu cần, chỉnh icon nhỏ lại */
     }
+    /* Bảng danh sách tài khoản */
+.right-banner table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.right-banner table thead {
+  background-color: #0074cc; /* Màu xanh phù hợp với header */
+  color: #fff;
+}
+
+.right-banner table thead th {
+  padding: 10px 12px;
+  text-align: center;
+  font-weight: bold;
+  border-right: 1px solid #eee;
+}
+
+.right-banner table thead th:last-child {
+  border-right: none;
+}
+
+.right-banner table tbody td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+.right-banner table tbody td:last-child {
+  border-right: none;
+}
+
+.right-banner table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.right-banner table tbody tr:hover {
+  background-color: #f1f6fb;
+}
+
+.right-banner table a {
+  color: #0074cc;
+  text-decoration: none;
+}
+
+.right-banner table a:hover {
+  text-decoration: underline;
+}
