@@ -89,60 +89,56 @@
 
     <script>
         function handle_register_client_standalone() {
-  var scientist_code = $('#scientist_code_reg').val();
-  var scientist_name = $('#scientist_name_reg').val();
-  var email = $('#re_email_reg').val().trim().toLowerCase();
-  var re_email2 = $('#re_email2_reg').val().trim().toLowerCase();
-  var password = $('#re_pass_reg').val();
-  var re_pass2 = $('#re_pass2_reg').val();
-  var regRole = $('#regRole').val();
+            const cccd = $('#scientist_code_reg').val().trim();
+            const fullname = $('#scientist_name_reg').val().trim();
+            const email = $('#re_email_reg').val().trim().toLowerCase();
+            const email2 = $('#re_email2_reg').val().trim().toLowerCase();
+            const pass = $('#re_pass_reg').val();
+            const pass2 = $('#re_pass2_reg').val();
+            const role = $('#regRole').val();
 
-  if (!scientist_code || !scientist_name || !email || !re_email2 || !password || !re_pass2 || !regRole) {
-    alert('Vui lòng điền đủ thông tin bắt buộc!');
-    return false;
-  }
+            /* ------- 1. Validate giống bản cũ ------- */
+            if (!cccd || !fullname || !email || !email2 || !pass || !pass2 || !role) {
+                alert('Vui lòng điền đủ thông tin bắt buộc!'); return;
+            }
+            if (email !== email2) { alert('Nhập lại email không khớp!'); return; }
+            if (pass !== pass2) { alert('Nhập lại mật khẩu không khớp!'); return; }
+            if (pass.length < 6 || pass.length > 50) {
+                alert('Mật khẩu phải từ 6 đến 50 ký tự!'); return;
+            }
+            if (cccd.length !== 12 || isNaN(cccd)) {
+                alert('Số CCCD phải có 12 chữ số!'); return;
+            }
 
-  if (email !== re_email2) {
-    alert('Nhập lại email không khớp!');
-    return false;
-  }
-
-  if (password !== re_pass2) {
-    alert('Nhập lại mật khẩu không khớp!');
-    return false;
-  }
-
-  if (password.length < 6 || password.length > 50) {
-    alert('Mật khẩu phải từ 6 đến 50 ký tự!');
-    return false;
-  }
-
-  if (scientist_code.length !== 12 || isNaN(scientist_code)) {
-    alert('Số CCCD phải có 12 chữ số!');
-    return false;
-  }
-
-  var users = JSON.parse(localStorage.getItem('users')) || {};
-  if (users[email]) {
-    alert('Email này đã được đăng ký!');
-    return false;
-  }
-
-  users[email] = {
-    scientist_code: scientist_code,
-    scientist_name: scientist_name,
-    password: password,
-    role: regRole
-  };
-  localStorage.setItem('users', JSON.stringify(users));
-
-  alert('Đăng ký thành công!');
-  window.location.href = 'index.html';
-
-  return true;
-}
-
+            /* ------- 2. Gửi AJAX tới Apps Script ------- */
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxzFhya2UaRYhz8vsuKZx1b5XPmPjciPM2FvDe_pMLYp8afNx8VKLzd6X8TsQ5QrQ57/exec'; // <-- dán URL bước 2
+            $.ajax({
+                url: scriptURL,
+                method: 'POST',
+                data: {
+                    action: 'register',
+                    cccd: cccd,
+                    name: fullname,
+                    email: email,
+                    password: pass,
+                    role: role
+                },
+                success: function (res) {
+                    if (res === 'SUCCESS') {
+                        alert('Đăng ký thành công!');
+                        $('#register_form_client')[0].reset();
+                        window.location.href = 'index.html';      // quay về login
+                    } else if (res === 'EXISTS') {
+                        alert('Email đã được đăng ký!');
+                    } else {
+                        alert('Đăng ký thất bại!');
+                    }
+                },
+                error: function () { alert('Không kết nối được tới server!'); }
+            });
+        }
     </script>
+
 </body>
 
 </html>
