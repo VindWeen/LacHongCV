@@ -14,7 +14,8 @@
   <div class="main-wrapper">
     <div class="header-wrapper">
       <h2>Danh sách tài khoản CLIENT</h2>
-      <div class="table-controls">
+      <div class="table-controls" style="display: flex; gap: 10px ;">
+        <button onclick="window.location='test.html'">Đến trang nhập thông tin</button>
         <button id="sortPositionBtn">Sắp xếp theo Chức vụ</button>
       </div>
     </div>
@@ -28,6 +29,7 @@
           <th>Email</th>
           <th>SĐT</th>
           <th>Chức vụ</th>
+
           <th >Trang cá nhân</th>
         </tr>
       </thead>
@@ -35,8 +37,25 @@
         <!-- Dữ liệu sẽ được render bằng JS -->
       </tbody>
     </table>
-  </div>
+    <h2>Giải thưởng chờ xét duyệt</h2>
+<table id="adminAwardTable">
+  <thead>
+    <tr>
+      <th>TT</th>
+      <th>Tiêu đề</th>
+      <th>Số người</th>
+      <th>Năm</th>
+      <th>Cấp</th>
+      <th>Người dùng</th>
+      <th>Số tiền nhận được mỗi người</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
+  </div>
+  
   <script src="admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
