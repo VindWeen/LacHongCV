@@ -1,12 +1,13 @@
 window.onload = function() {
   const users = JSON.parse(localStorage.getItem('users')) || {};
+  const awards = JSON.parse(localStorage.getItem('awards')) || [];
 
-  // Lọc clients và sort theo orderIndex
   const clients = Object.entries(users)
     .filter(([_, u]) => u.role === 'client')
     .sort((a, b) => (a[1].orderIndex ?? 9999) - (b[1].orderIndex ?? 9999));
 
   const tbody = document.getElementById('userTableBody');
+  const adminAwardTableBody = document.querySelector('#adminAwardTable tbody');
 
   function renderUserTable(userList) {
     tbody.innerHTML = '';
@@ -20,13 +21,14 @@ window.onload = function() {
         <td>${email}</td>
         <td>${info.phone || ''}</td>
         <td>${info.position || ''}</td>
-        <td class="actions-cell">
+        <td>
           <a href="test.html?user=${encodeURIComponent(email)}" target="_blank">Xem</a>
           <a class="delete-btn" data-email="${email}">Xóa</a>
         </td>
       </tr>`;
       tbody.innerHTML += row;
     });
+    addDeleteEvent();
   }
 
   function addDeleteEvent() {
@@ -40,14 +42,59 @@ window.onload = function() {
           const index = clients.findIndex(([em, _]) => em === email);
           if (index !== -1) clients.splice(index, 1);
           renderUserTable(clients);
-          addDeleteEvent(); // Gắn lại
         }
       };
     });
   }
 
+  function renderAwardTable() {
+    adminAwardTableBody.innerHTML = '';
+    const pendingAwards = awards.filter(a => a.status === 'pending');
+
+    pendingAwards.forEach((award, index) => {
+      let totalAmount = 0;
+      switch (award.level) {
+        case 'CapTinh': totalAmount = 10_000_000; break;
+        case 'CapTP': totalAmount = 5_000_000; break;
+        case 'CapHuyen': totalAmount = 2_000_000; break;
+        case 'CapXa': totalAmount = 500_000; break;
+      }
+      const numPeople = parseInt(award.amountOfPeople) || 1;
+      const amountPerPerson = totalAmount / numPeople;
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${award.title}</td>
+        <td>${award.amountOfPeople}</td>
+        <td>${award.year}</td>
+        <td>${award.level}</td>
+        <td>${award.user || ''}</td>
+        <td>${amountPerPerson.toLocaleString('vi-VN')} VND</td>
+        <td><button class="approve-btn">Xác nhận</button></td>
+      `;
+      tr.querySelector('.approve-btn').onclick = () => {
+        award.status = 'approved';
+        localStorage.setItem('awards', JSON.stringify(awards));
+
+        if (award.user && users[award.user]) {
+          const userAwards = users[award.user].awards || [];
+          userAwards.forEach(a => {
+            if (a.title === award.title) a.status = 'approved';
+          });
+          users[award.user].awards = userAwards;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        alert('Đã duyệt!');
+        renderAwardTable();
+      };
+      adminAwardTableBody.appendChild(tr);
+    });
+  }
+
   renderUserTable(clients);
-  addDeleteEvent();
+  renderAwardTable();
 
   const positionOrder = {
     "Giáo sư": 5,
@@ -64,22 +111,18 @@ window.onload = function() {
       return posB - posA;
     });
 
-    // Gán lại orderIndex mới
     sorted.forEach(([email, data], index) => {
       data.orderIndex = index;
     });
 
     localStorage.setItem('users', JSON.stringify(users));
-
     renderUserTable(sorted);
-    addDeleteEvent();
   };
 
   new Sortable(tbody, {
     animation: 150,
     ghostClass: 'sortable-ghost',
     onEnd: function () {
-      // Sau khi kéo thả xong, lưu lại thứ tự mới
       const newOrderEmails = Array.from(tbody.querySelectorAll('tr')).map(tr => {
         const emailCell = tr.querySelector('td:nth-child(5)');
         return emailCell?.textContent?.trim();
