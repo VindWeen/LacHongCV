@@ -1,5 +1,5 @@
- document.addEventListener('DOMContentLoaded', function() {
- // Lấy user hiện tại
+document.addEventListener('DOMContentLoaded', function () {
+  // Lấy user hiện tại
   const urlParams = new URLSearchParams(window.location.search);
   const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
 
@@ -14,6 +14,7 @@
       info: {},
       posts: [],
       awards: []
+    
     };
   }
 
@@ -35,7 +36,7 @@
       year: 'Năm bổ nhiệm',
       hometown: 'Quê quán',
       ethnicity: 'Dân tộc',
-      cccd: 'Số CCCD',
+      // cccd: 'Số CCCD',
       email: 'Email chính',
       altEmail: 'Email thay thế',
       phone: 'Số điện thoại',
@@ -497,205 +498,378 @@
 
   //==========In==========
   function toWord() {
-    // Lấy user đang xem
-    const userData = users[viewingUser] || {};
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
 
-    const info = userData.info || {};
-    const workList = userData.workList || [];
-    const languages = userData.languageList || [];
-    const experienceList = userData.experienceList || [];
-    const achievementList = userData.achievementList || [];
-    const researchList = userData.researchList || [];
-    const projectList = userData.projectList || [];
-    const publicationList = userData.publicationList || [];
+  const users = JSON.parse(localStorage.getItem('users')) || {};
+  const userData = users[viewingUser] || {};
 
-    let html = `<!DOCTYPE html>
+  const info = userData.info || {};
+  const workList = userData.workList || [];
+  const languages = userData.languageList || [];
+  const experienceList = userData.experienceList || [];
+  const achievementList = userData.achievementList || [];
+  const researchList = userData.researchList || [];
+  const projectList = userData.projectList || [];
+  const publicationList = userData.publicationList || [];
+  const awards = userData.awards || [];
+
+  let html = `
+  <!DOCTYPE html>
   <html>
-    <head>
-      <meta charset="utf-8">
-      <style>
-        body { font-family: Segoe UI, sans-serif; padding: 20px; }
-        h2 { color: #0d47a1; border-bottom: 1px solid #90caf9; padding-bottom: 4px; }
-        .section { margin-bottom: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        td, th { border: 1px solid #000; padding: 8px; }
-        th { background: #e3f2fd; color: #0d47a1; text-align: left; }
-        ul { margin: 0; padding-left: 20px; }
-      </style>
-    </head>
-    <body>
-      <h2>A. Thông tin cá nhân</h2>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { font-family: Segoe UI, sans-serif; padding: 20px; }
+      h2 { color: #0d47a1; border-bottom: 1px solid #90caf9; padding-bottom: 4px; }
+      .section { margin-bottom: 24px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+      td, th { border: 1px solid #000; padding: 8px; }
+      th { background: #e3f2fd; color: #0d47a1; text-align: left; }
+      ul { margin: 0; padding-left: 20px; }
+    </style>
+  </head>
+  <body>
+    <h2>A. Thông tin cá nhân</h2>
+    <table>
+      <tr><th>Họ và tên</th><td>${info.fullName || ''}</td></tr>
+      <tr><th>Ngày sinh</th><td>${info.dob ? new Date(info.dob).toLocaleDateString('vi-VN') : ''}</td></tr>
+      <tr><th>Giới tính</th><td>${info.gender || ''}</td></tr>
+      <tr><th>Email</th><td>${info.email || ''}</td></tr>
+      <tr><th>Số điện thoại</th><td>${info.phone || ''}</td></tr>
+    </table>
+
+    <div class="section">
+      <h2>B. Quá trình công tác chuyên môn</h2>
       <table>
-        <tr><th>Họ và tên</th><td>${info.fullName || ''}</td></tr>
-        <tr><th>Ngày sinh</th><td>${info.dob ? new Date(info.dob).toLocaleDateString('vi-VN') : ''}</td></tr>
-        <tr><th>Giới tính</th><td>${info.gender || ''}</td></tr>
-        <tr><th>Số CCCD</th><td>${info.cccd || ''}</td></tr>
-        <tr><th>Email</th><td>${info.email || ''}</td></tr>
-        <tr><th>Số điện thoại</th><td>${info.phone || ''}</td></tr>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Thời gian</th>
+            <th>Nơi công tác</th>
+            <th>Công việc đảm nhiệm</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${workList.map((w, i) => `
+            <tr>
+              <td>${i + 1}</td>
+              <td>${w.time}</td>
+              <td>${w.place}</td>
+              <td>${w.job}</td>
+            </tr>
+          `).join('')}
+        </tbody>
       </table>
+    </div>
 
-      <div class="section">
-        <h2>B. Quá trình công tác chuyên môn</h2>
-        <table>
-          <thead>
+    <div class="section">
+      <h2>C. Ngoại ngữ</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Ngoại ngữ</th>
+            <th>Đọc</th>
+            <th>Viết</th>
+            <th>Nghe</th>
+            <th>Nói</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${languages.map((l, i) => `
             <tr>
-              <th>TT</th>
-              <th>Thời gian</th>
-              <th>Nơi công tác</th>
-              <th>Công việc đảm nhiệm</th>
+              <td>${i + 1}</td>
+              <td>${l.language}</td>
+              <td>${l.read}</td>
+              <td>${l.write}</td>
+              <td>${l.listen}</td>
+              <td>${l.speak}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${workList.map((w, i) => `
-              <tr>
-                <td>${i + 1}</td>
-                <td>${w.time}</td>
-                <td>${w.place}</td>
-                <td>${w.job}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
 
-      <div class="section">
-        <h2>C. Ngoại ngữ</h2>
-        <table>
-          <thead>
+    <div class="section">
+      <h2>D. Kinh nghiệm & Thành tích</h2>
+      <h3>1. Kinh nghiệm</h3>
+      <ul>
+        ${experienceList.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+      <h3>2. Thành tích</h3>
+      <ul>
+        ${achievementList.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>E. Hướng nghiên cứu</h2>
+      <ul>
+        ${researchList.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>F. Đề tài nghiên cứu</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Tên đề tài</th>
+            <th>Cơ quan tài trợ</th>
+            <th>Thời gian</th>
+            <th>Vai trò</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${projectList.map((p, i) => `
             <tr>
-              <th>TT</th>
-              <th>Ngoại ngữ</th>
-              <th>Đọc</th>
-              <th>Viết</th>
-              <th>Nghe</th>
-              <th>Nói</th>
+              <td>${i + 1}</td>
+              <td>${p.name}</td>
+              <td>${p.agency}</td>
+              <td>${p.time}</td>
+              <td>${p.role}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${languages.map((l, i) => `
-              <tr>
-                <td>${i + 1}</td>
-                <td>${l.language}</td>
-                <td>${l.read}</td>
-                <td>${l.write}</td>
-                <td>${l.listen}</td>
-                <td>${l.speak}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
 
-      <div class="section">
-    <h2>D. Kinh nghiệm & Thành tích</h2>
-    <h3>1. Kinh nghiệm</h3>
-    <ul>
-      ${experienceList.map(item => `<li>${item}</li>`).join('')}
-    </ul>
-    <h3>2. Thành tích</h3>
-    <ul>
-      ${achievementList.map(item => `<li>${item}</li>`).join('')}
-    </ul>
-  </div>
-
-
-      <div class="section">
-        <h2>E. Hướng nghiên cứu</h2>
-        <ul>
-          ${researchList.map(item => `<li>${item}</li>`).join('')}
-        </ul>
-      </div>
-
-      <div class="section">
-        <h2>F. Đề tài nghiên cứu</h2>
-        <table>
-          <thead>
+    <div class="section">
+      <h2>G. Công bố khoa học</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Tác giả</th>
+            <th>Tên công trình</th>
+            <th>Tạp chí / Hội thảo</th>
+            <th>Ghi chú</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${publicationList.map((p, i) => `
             <tr>
-              <th>TT</th>
-              <th>Tên đề tài</th>
-              <th>Cơ quan tài trợ</th>
-              <th>Thời gian</th>
-              <th>Vai trò</th>
+              <td>${i + 1}</td>
+              <td>${p.author}</td>
+              <td>${p.title}</td>
+              <td>${p.journal}</td>
+              <td>${p.note}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${projectList.map((p, i) => `
-              <tr>
-                <td>${i + 1}</td>
-                <td>${p.name}</td>
-                <td>${p.agency}</td>
-                <td>${p.time}</td>
-                <td>${p.role}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
 
-      <div class="section">
-        <h2>G. Công bố khoa học</h2>
-        <table>
-          <thead>
+    <div class="section">
+      <h2>H. Giải thưởng</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Tên giải thưởng</th>
+            <th>Số người</th>
+            <th>Năm</th>
+            <th>Cấp</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${awards.map((a, i) => `
             <tr>
-              <th>TT</th>
-              <th>Tác giả</th>
-              <th>Tên công trình</th>
-              <th>Tạp chí / Hội thảo</th>
-              <th>Ghi chú</th>
+              <td>${i + 1}</td>
+              <td>${a.title}</td>
+              <td>${a.amountOfPeople}</td>
+              <td>${a.year}</td>
+              <td>${a.level}</td>
+              <td>${a.status}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${publicationList.map((p, i) => `
-              <tr>
-                <td>${i + 1}</td>
-                <td>${p.author}</td>
-                <td>${p.title}</td>
-                <td>${p.journal}</td>
-                <td>${p.note}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
 
-    </body>
-  </html>`;
+  </body>
+  </html>
+  `;
 
-    // Tạo file Word
-    const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Thong_tin_cv-${Date.now()}.doc`;
-    link.click();
-    URL.revokeObjectURL(url);
-  }
+  const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `Thong_tin_cv_${Date.now()}.doc`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 
   document.getElementById('btnExportWord').onclick = toWord;
 
- 
-window.onload = function() {
-  const users = JSON.parse(localStorage.getItem('users')) || {};
-  const tbodyRight = document.getElementById('userTableBodyRight');
 
-  function renderAllUsers() {
-    tbodyRight.innerHTML = '';
-    Object.entries(users).forEach(([email, data]) => {
-      const info = data.info || {};
-      const row = `<tr>
+  window.onload = function () {
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+    const tbodyRight = document.getElementById('userTableBodyRight');
+
+    function renderAllUsers() {
+      tbodyRight.innerHTML = '';
+      Object.entries(users).forEach(([email, data]) => {
+        const info = data.info || {};
+        const row = `<tr>
         <td>${info.fullName || ''}</td>
         <td>${info.position || ''}</td>
         <td><a href="test.html?user=${encodeURIComponent(email)}" target="_blank">Xem</a></td>
       </tr>`;
-      tbodyRight.innerHTML += row;
+        tbodyRight.innerHTML += row;
+      });
+    }
+
+    renderAllUsers();
+    const avatar = document.getElementById('avatar');
+    const avatarInput = document.getElementById('avatarInput');
+
+    const userEmail = document.getElementById('profileEmail').innerText.trim();
+    console.log("✅ Current email:", userEmail);  // Kiểm tra
+
+    const storageKey = 'avatar_' + userEmail;
+
+    const savedAvatar = localStorage.getItem(storageKey);
+    if (savedAvatar) {
+      avatar.src = savedAvatar;
+    }
+
+    avatar.addEventListener('click', () => avatarInput.click());
+
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          avatar.src = e.target.result;
+          localStorage.setItem(storageKey, e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+
     });
+  };
+});
+document.getElementById('btnSaveAwards').addEventListener('click', function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
+
+  let users = JSON.parse(localStorage.getItem('users')) || {};
+  if (!viewingUser || !users[viewingUser]) {
+    alert('Không xác định được người dùng!');
+    return;
   }
 
-  renderAllUsers();
+  const title = document.getElementById('awardTitle').value.trim();
+  const amount = document.getElementById('amountofpeople').value.trim();
+  const year = document.getElementById('awardYear').value.trim();
+  const level = document.getElementById('awardLevel').value;
+
+  if (!title || !amount || !year || !level) {
+    alert('Vui lòng nhập đầy đủ thông tin giải thưởng!');
+    return;
+  }
+
+  const award = { 
+  title, 
+  amountOfPeople: amount,   // Đổi tên key cho khớp admin.js
+  year, 
+  level,
+  status: 'pending',        // Thêm trạng thái cho admin lọc
+  user: viewingUser         // Có thể thêm nếu cần biết user nào
 };
- });
 
+// Lưu cho user để xem lại
+let awards = users[viewingUser].awards || [];
+awards.push(award);
+users[viewingUser].awards = awards;
 
+// Lưu thêm cho admin
+let globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
+globalAwards.push(award);
+localStorage.setItem('awards', JSON.stringify(globalAwards));
 
+localStorage.setItem('users', JSON.stringify(users));
 
+  renderAwardTable();
 
+  document.getElementById('awardForm').reset();
+});
+
+// Render bảng giải thưởng theo user
+function renderAwardTable() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
+
+  let users = JSON.parse(localStorage.getItem('users')) || {};
+  const awards = (users[viewingUser] && users[viewingUser].awards) || [];
+
+  const tbody = document.getElementById('awardTableBody');
+  tbody.innerHTML = '';
+
+  awards.forEach((award, index) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${index + 1}</td>
+    <td>${award.title}</td>
+    <td>${award.amountOfPeople}</td>
+    <td>${award.year}</td>
+    <td>${award.level}</td>
+    <td>${award.status}</td>
+    <td><button onclick="deleteAward(${index})">Xóa</button></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+}
+
+// Xóa giải thưởng
+function deleteAward(index) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
+
+  let users = JSON.parse(localStorage.getItem('users')) || {};
+  let awards = users[viewingUser].awards || [];
+  const deleted = awards.splice(index, 1)[0];
+  users[viewingUser].awards = awards;
+
+  // Xóa luôn ở global awards
+  let globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
+  const idx = globalAwards.findIndex(a =>
+    a.title === deleted.title &&
+    a.amountOfPeople === deleted.amountOfPeople &&
+    a.year === deleted.year &&
+    a.level === deleted.level &&
+    a.user === viewingUser
+  );
+  if (idx !== -1) {
+    globalAwards.splice(idx, 1);
+    localStorage.setItem('awards', JSON.stringify(globalAwards));
+  }
+
+  localStorage.setItem('users', JSON.stringify(users));
+  renderAwardTable();
+}
+function renderApprovedAwards() {
+  const awards = JSON.parse(localStorage.getItem('awards')) || [];
+  const approvedAwards = awards.filter(award => award.status === 'approved');
+
+  const awardList = document.getElementById('awardList');
+  awardList.innerHTML = '';
+
+  approvedAwards.forEach(award => {
+    const li = document.createElement('li');
+    li.textContent = `${award.title} - ${award.amountOfPeople} người - ${award.year} - ${award.level}`;
+    awardList.appendChild(li);
+  });
+}
+
+// Gọi khi load
+renderApprovedAwards();
+
+// Tải bảng khi load
+window.addEventListener('load', renderAwardTable);
