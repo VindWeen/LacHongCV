@@ -811,21 +811,22 @@ function renderAwardTable() {
   const tbody = document.getElementById('awardTableBody');
   tbody.innerHTML = '';
 
-  awards.forEach((award, index) => {
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${award.title}</td>
-    <td>${award.amountOfPeople}</td>
-    <td>${award.year}</td>
-    <td>${award.level}</td>
-    <td>${award.status}</td>
-    <td><button onclick="deleteAward(${index})">Xóa</button></td>
-  `;
-  tbody.appendChild(tr);
-});
-
+  // Chỉ hiển thị giải thưởng có trạng thái PENDING
+  awards.filter(award => award.status === 'pending').forEach((award, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${award.title}</td>
+      <td>${award.amountOfPeople}</td>
+      <td>${award.year}</td>
+      <td>${award.level}</td>
+      <td>${award.status}</td>
+      <td><button onclick="deleteAward(${index})">Xóa</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
+
 
 // Xóa giải thưởng
 function deleteAward(index) {
@@ -858,15 +859,23 @@ function renderApprovedAwards() {
   const awards = JSON.parse(localStorage.getItem('awards')) || [];
   const approvedAwards = awards.filter(award => award.status === 'approved');
 
-  const awardList = document.getElementById('awardList');
-  awardList.innerHTML = '';
+  const tbody = document.getElementById('awardApprovedTableBody');
+  tbody.innerHTML = '';
 
-  approvedAwards.forEach(award => {
-    const li = document.createElement('li');
-    li.textContent = `${award.title} - ${award.amountOfPeople} người - ${award.year} - ${award.level}`;
-    awardList.appendChild(li);
+  approvedAwards.forEach((award, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${award.title}</td>
+      <td>${award.amountOfPeople}</td>
+      <td>${award.year}</td>
+      <td>${award.level}</td>
+      <td>${award.status}</td>
+    `;
+    tbody.appendChild(tr);
   });
 }
+
 
 // Gọi khi load
 renderApprovedAwards();
