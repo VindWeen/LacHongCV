@@ -754,107 +754,128 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
 });
-document.getElementById('btnSaveAwards').addEventListener('click', function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
 
-  let users = JSON.parse(localStorage.getItem('users')) || {};
-  if (!viewingUser || !users[viewingUser]) {
-    alert('Không xác định được người dùng!');
-    return;
-  }
+/*Giai thuong*/ 
+// === GIẢI THƯỞNG ===
 
-  const title = document.getElementById('awardTitle').value.trim();
-  const amount = document.getElementById('amountofpeople').value.trim();
-  const year = document.getElementById('awardYear').value.trim();
-  const level = document.getElementById('awardLevel').value;
+// Khi click nút Chờ xét duyệt
+document.getElementById('btnSaveAwards').addEventListener('click', function() {
+  const awardTitle = document.getElementById('awardTitle').value.trim();
+  const amountOfPeople = document.getElementById('amountofpeople').value.trim();
+  const awardYear = document.getElementById('awardYear').value.trim();
+  const awardLevel = document.getElementById('awardLevel').value;
 
-  if (!title || !amount || !year || !level) {
-    alert('Vui lòng nhập đầy đủ thông tin giải thưởng!');
-    return;
-  }
+  const minhChungInput = document.getElementById('minhchung');
+  const files = minhChungInput.files;
+  const minhChungArr = [];
 
-  const award = { 
-  title, 
-  amountOfPeople: amount,   // Đổi tên key cho khớp admin.js
-  year, 
-  level,
-  status: 'pending',        // Thêm trạng thái cho admin lọc
-  user: viewingUser         // Có thể thêm nếu cần biết user nào
+  const readerPromises = Array.from(files).map(file => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        minhChungArr.push(e.target.result);
+        resolve();
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  Promise.all(readerPromises).then(() => {
+    const newAward = {
+  awardId: Date.now(), // hoặc crypto.randomUUID() nếu muốn
+  title: awardTitle,
+  amountOfPeople: amountOfPeople,
+  year: awardYear,
+  level: awardLevel,
+  minhChung: minhChungArr,
+  status: 'pending',
+  user: localStorage.getItem('loggedInUser') || 'guest'
 };
 
-// Lưu cho user để xem lại
-let awards = users[viewingUser].awards || [];
-awards.push(award);
-users[viewingUser].awards = awards;
 
-// Lưu thêm cho admin
-let globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
-globalAwards.push(award);
-localStorage.setItem('awards', JSON.stringify(globalAwards));
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+    const viewingUser = newAward.user;
 
-localStorage.setItem('users', JSON.stringify(users));
+    if (!users[viewingUser]) {
+      users[viewingUser] = { awards: [] };
+    }
+    if (!users[viewingUser].awards) {
+      users[viewingUser].awards = [];
+    }
+    users[viewingUser].awards.push(newAward);
+    localStorage.setItem('users', JSON.stringify(users));
 
-  renderAwardTable();
+    // Lưu vào global awards
+    let globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
+    globalAwards.push(newAward);
+    localStorage.setItem('awards', JSON.stringify(globalAwards));
 
-  document.getElementById('awardForm').reset();
+    alert('Đã lưu giải thưởng!');
+    renderAwardTable();
+    renderApprovedAwards();
+  });
 });
 
-// Render bảng giải thưởng theo user
+// Render bảng Giải thưởng PENDING cho user
 function renderAwardTable() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
-
-  let users = JSON.parse(localStorage.getItem('users')) || {};
+  const viewingUser = new URLSearchParams(window.location.search).get('user') || localStorage.getItem('loggedInUser');
+  const users = JSON.parse(localStorage.getItem('users')) || {};
   const awards = (users[viewingUser] && users[viewingUser].awards) || [];
 
   const tbody = document.getElementById('awardTableBody');
   tbody.innerHTML = '';
 
-  // Chỉ hiển thị giải thưởng có trạng thái PENDING
-  awards.filter(award => award.status === 'pending').forEach((award, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${award.title}</td>
-      <td>${award.amountOfPeople}</td>
-      <td>${award.year}</td>
-      <td>${award.level}</td>
-      <td>${award.status}</td>
-      <td><button onclick="deleteAward(${index})">Xóa</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
+  awards
+    .filter(a => a.status === 'pending')
+    .forEach((award, index) => {
+      const minhChungHTML = (award.minhChung || []).map(src =>
+        `<img src="${src}" style="width: 50px; margin-right: 5px;">`
+      ).join('');
 
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${award.title}</td>
+        <td>${award.amountOfPeople}</td>
+        <td>${award.year}</td>
+        <td>${award.level}</td>
+        <td>${minhChungHTML}</td>
+        <td>${award.status}</td>
+        <td><button onclick="deleteAward(${award.awardId})">Xóa</button></td>
+
+      `;
+      tbody.appendChild(tr);
+    });
+}
 
 // Xóa giải thưởng
-function deleteAward(index) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
-
+function deleteAward(awardId) {
+  // Lấy dữ liệu
   let users = JSON.parse(localStorage.getItem('users')) || {};
-  let awards = users[viewingUser].awards || [];
-  const deleted = awards.splice(index, 1)[0];
-  users[viewingUser].awards = awards;
-
-  // Xóa luôn ở global awards
   let globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
-  const idx = globalAwards.findIndex(a =>
-    a.title === deleted.title &&
-    a.amountOfPeople === deleted.amountOfPeople &&
-    a.year === deleted.year &&
-    a.level === deleted.level &&
-    a.user === viewingUser
-  );
-  if (idx !== -1) {
-    globalAwards.splice(idx, 1);
-    localStorage.setItem('awards', JSON.stringify(globalAwards));
+
+  // Xác định user hiện tại
+  const viewingUser = new URLSearchParams(window.location.search).get('user') || localStorage.getItem('loggedInUser');
+
+  // Xóa trong users[user].awards
+  if (users[viewingUser] && users[viewingUser].awards) {
+    users[viewingUser].awards = users[viewingUser].awards.filter(a => a.awardId != awardId);
   }
 
+  // Xóa trong global awards
+  globalAwards = globalAwards.filter(a => a.awardId != awardId);
+
+  // Lưu lại
   localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('awards', JSON.stringify(globalAwards));
+
+  alert('Đã xóa giải thưởng!');
   renderAwardTable();
 }
+
+
+
+// Render bảng đã duyệt
 function renderApprovedAwards() {
   const awards = JSON.parse(localStorage.getItem('awards')) || [];
   const approvedAwards = awards.filter(award => award.status === 'approved');
@@ -875,6 +896,115 @@ function renderApprovedAwards() {
     tbody.appendChild(tr);
   });
 }
+
+// Preview minh chứng
+document.getElementById('minhchung').addEventListener('change', function() {
+  const preview = document.getElementById('previewMinhChung');
+  preview.innerHTML = '';
+  Array.from(this.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.width = '50px';
+      img.style.marginRight = '5px';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// Khi load trang thì render luôn
+window.addEventListener('load', () => {
+  renderAwardTable();
+  renderApprovedAwards();
+});
+// === TIẾT KHÓA HỌC ===
+document.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewingUser = urlParams.get('user') || localStorage.getItem('loggedInUser');
+
+  let users = JSON.parse(localStorage.getItem('users')) || {};
+  if (!users[viewingUser]) {
+    users[viewingUser] = { courseList: [] };
+  }
+  let courseList = users[viewingUser].courseList || [];
+
+  const tbody = document.getElementById('courseTableBody');
+  const totalLessons = document.getElementById('totalLessons');
+  const lessonStatus = document.getElementById('lessonStatus');
+  const btnSaveCourses = document.getElementById('btnSaveCourses');
+
+  function renderCourseRows() {
+    tbody.innerHTML = '';
+    courseList.forEach((course, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="text" value="${course.name}" data-index="${index}" data-field="name"></td>
+        <td><input type="number" value="${course.lessons}" data-index="${index}" data-field="lessons"></td>
+        <td><input type="text" value="${course.time}" data-index="${index}" data-field="time"></td>
+      `;
+      tbody.appendChild(row);
+    });
+    addEmptyRow();
+    updateTotalLessons();
+  }
+
+  function addEmptyRow() {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><input type="text" data-index="new" data-field="name"></td>
+      <td><input type="number" data-index="new" data-field="lessons"></td>
+      <td><input type="text" data-index="new" data-field="time"></td>
+    `;
+    tbody.appendChild(row);
+  }
+
+  function updateTotalLessons() {
+    const sum = courseList.reduce((acc, cur) => acc + Number(cur.lessons || 0), 0);
+    totalLessons.innerHTML = `Tổng số tiết: ${sum} - <span id="lessonStatus">${sum >= 30 ? 'Đạt' : 'Không đạt'}</span>`;
+  }
+
+  tbody.addEventListener('input', (e) => {
+    const input = e.target;
+    const index = input.dataset.index;
+    const field = input.dataset.field;
+
+    if (index === 'new') {
+      // Tạo mới
+      const row = input.closest('tr');
+      const inputs = row.querySelectorAll('input');
+      const name = inputs[0].value.trim();
+      const lessons = inputs[1].value.trim();
+      const time = inputs[2].value.trim();
+
+      if (name && lessons && time) {
+        courseList.push({
+          name: name,
+          lessons: Number(lessons),
+          time: time
+        });
+        renderCourseRows();
+      }
+    } else {
+      // Cập nhật dòng cũ
+      if (field === 'lessons') {
+        courseList[index][field] = Number(input.value);
+      } else {
+        courseList[index][field] = input.value;
+      }
+      updateTotalLessons();
+    }
+  });
+
+  btnSaveCourses.addEventListener('click', () => {
+    users[viewingUser].courseList = courseList;
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Đã lưu danh sách tiết khóa học!');
+  });
+
+  renderCourseRows();
+});
 
 
 // Gọi khi load
