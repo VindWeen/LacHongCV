@@ -434,6 +434,11 @@
               </div>
             </div>
           </form>
+          <label for="minhchung" class="upload-label">
+                  <span>Chọn minh chứng (có thể chọn nhiều hình)</span>
+                  <input type="file" id="minhchung" multiple accept="image/*" />
+                </label>
+                <div id="previewMinhChung" class="preview-container"></div>
           <div style="text-align: center;">
             <button type="button" class="btn-main" id="btnSaveAwards" style="width: 180px; margin-top: 20px;">Chờ xét
               duyệt</button>
@@ -446,6 +451,7 @@
                 <th>Số người tham gia</th>
                 <th>Năm nhận</th>
                 <th>Cấp giải thưởng</th>
+                <th>Minh chứng</th>
                 <th>Trạng thái</th>
                 <th>Xóa</th>
               </tr>
@@ -453,27 +459,48 @@
             <tbody id="awardTableBody"></tbody>
           </table>
           <h3>Danh sách giải thưởng đã duyệt</h3>
-<table id="awardApprovedTable" class="info-table" border="1" cellspacing="0" cellpadding="5">
-  <thead>
-    <tr>
-      <th>TT</th>
-      <th>Tên giải thưởng</th>
-      <th>Số người</th>
-      <th>Năm</th>
-      <th>Cấp</th>
-      <th>Trạng thái</th>
-    </tr>
-  </thead>
-  <tbody id="awardApprovedTableBody">
-    <!-- Dữ liệu sẽ được render ở đây -->
-  </tbody>
-</table>
+          <table id="awardApprovedTable" class="info-table" border="1" cellspacing="0" cellpadding="5">
+            <thead>
+              <tr>
+                <th>TT</th>
+                <th>Tên giải thưởng</th>
+                <th>Số người</th>
+                <th>Năm</th>
+                <th>Cấp</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="awardApprovedTableBody">
+              <!-- Dữ liệu sẽ được render ở đây -->
+            </tbody>
+          </table>
 
 
         </div>
       </div>
 
-
+      <!-- H. Công trình khoa học đã công bố -->
+       <div class="list-section">
+        <div class="section-title">J. Tiết khoa học</div>
+        <center>
+        <div class="info-table" id="courseSection">
+          <table id="courseTable" border="0" cellspacing="0" cellpadding="5" style="width: 80%; margin: auto; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th>Tên môn</th>
+                <th>Số tiết</th>
+                <th>Thời gian dạy</th>
+              </tr>
+            </thead>
+            <tbody id="courseTableBody">
+              <!-- Các hàng nhập sẽ tự động thêm ở đây -->
+            </tbody>
+          </table>
+        <h2><p id="totalLessons">Tổng số tiết: 0 - <span id="lessonStatus">Không đạt</span></p></h2>
+        <button id="btnSaveCourses" class="btn-main">Xác nhận</button>
+      </div>
+      </center>
+      </div>
 
       <div style="text-align: center; margin-top: 10px; display: flex; gap: 40px; justify-content: center; size: 50px;">
         <button type="button" class="btn-main" onclick="toWord()" id="btnExportWord" style="width: 150px;">In ra file
@@ -500,6 +527,7 @@
         </table>
       </div>
     </div>
+    
   </div>
   <!-- Footer -->
   <footer class="site-footer">
