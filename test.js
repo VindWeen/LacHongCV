@@ -513,6 +513,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const projectList = userData.projectList || [];
   const publicationList = userData.publicationList || [];
   const awards = userData.awards || [];
+  const courseList = userData.courseList || [];
+
+  const totalLessons = courseList.reduce((sum, c) => sum + (Number(c.lessons) || 0), 0);
+  const lessonStatus = totalLessons >= 30 ? 'Đạt' : 'Không đạt';
 
   let html = `
   <!DOCTYPE html>
@@ -689,7 +693,30 @@ document.addEventListener('DOMContentLoaded', function () {
         </tbody>
       </table>
     </div>
-
+    <div class="section">
+      <h2>I. Tiết khóa học</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>TT</th>
+            <th>Tên học phần</th>
+            <th>Số tiết</th>
+            <th>Thời gian</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${courseList.map((c, i) => `
+            <tr>
+              <td>${i + 1}</td>
+              <td>${c.name}</td>
+              <td>${c.lessons}</td>
+              <td>${c.time}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <p><strong>Tổng số tiết:</strong> ${totalLessons} — <strong>Kết quả:</strong> ${lessonStatus}</p>
+    </div>
   </body>
   </html>
   `;
