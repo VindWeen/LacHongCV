@@ -234,6 +234,7 @@ select:focus {
       padding: 10px;
       border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .info-table {
@@ -394,6 +395,37 @@ select:focus {
   border-radius: 8px;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
+}
+
+  /*upload-minhchung*/
+  .upload-label {
+  display: inline-block;
+  background: #007BFF;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight:500;
+  margin-bottom: 10px;
+}
+
+.upload-label input[type="file"] {
+  display: none;
+}
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preview-container img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .right-banner table thead {
