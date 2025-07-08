@@ -1,0 +1,94 @@
+/* Nền và font tổng thể */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
+}
+
+/* Tiêu đề trang */
+h1 {
+  text-align: center;
+  color: #0d47a1;
+  margin-top: 30px;
+}
+
+/* Phần thêm giải thưởng */
+form {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1a237e;
+}
+
+/* Các ô input */
+input[type="text"],
+textarea {
+  width: 95%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #3f51b5;
+  outline: none;
+  box-shadow: 0 0 4px rgba(63, 81, 181, 0.4);
+}
+
+/* Nút */
+button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #303f9f;
+}
+
+/* Danh sách giải thưởng */
+#awardList {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+#awardList li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 16px;
+}
+
+#awardList li:last-child {
+  border-bottom: none;
+}
+
+/* Nút in ra file */
+#exportBtn {
+  display: block;
+  margin: 0 auto 40px;
+  background-color: #1a73e8;
+  font-size: 15px;
+}

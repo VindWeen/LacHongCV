@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý Giải thưởng</title>
+  <link rel="stylesheet" href="giaithuong.css">
+</head>
+<body>
+  <h1>Trang Quản lý Giải thưởng</h1>
+
+  <form id="awardForm">
+
+    <h2>Thêm Giải thưởng</h2>
+    <input type="text" id="awardTitle" placeholder="Tên giải thưởng" required>
+    <input type="text" id="awardYear" placeholder="Năm nhận" required>
+    <button type="submit">➕ Thêm giải thưởng</button>
+  </form>
+
+  <h2>Danh sách Giải thưởng</h2>
+  <ul id="awardList"></ul>
+
+  <button id="exportBtn">🖨️ In ra file Word</button>
+
+<script src="index.umd.js"></script>
+
+  <script src="giaithuong.js" defer></script>
+</body>
+</html>
