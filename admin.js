@@ -23,19 +23,20 @@ function renderPendingAwards() {
 
   let html = '<table border="1"><tr><th>Tiêu đề</th><th>Người nộp</th><th>Minh chứng</th><th>Duyệt</th></tr>';
   pendingAwards.forEach(a => {
-    html += `
-      <tr>
-        <td>${a.title}</td>
-        <td>${a.user}</td>
-        <td>
-          ${a.minhChung.map((img, i) => `<img src="${img}" alt="Minh chứng ${i+1}" width="50">`).join('')}
-        </td>
-        <td>
-          <button class="btn-approve" data-award-id="${a.awardId}">Duyệt</button>
-        </td>
-      </tr>
-    `;
-  });
+  html += `
+    <tr>
+      <td>${a.title}</td>
+      <td>${a.user}</td>
+      <td>
+        ${(a.minhChung || []).map((img, i) => `<img src="${img}" alt="Minh chứng ${i+1}" width="50">`).join('')}
+      </td>
+      <td>
+        <button class="btn-approve" data-award-id="${a.awardId}">Duyệt</button>
+      </td>
+    </tr>
+  `;
+});
+
   html += '</table>';
 
   container.innerHTML = html;
@@ -61,17 +62,18 @@ function renderApprovedAwards() {
 
   let html = '<table border="1"><tr><th>Tiêu đề</th><th>Người nộp</th><th>Minh chứng</th><th>Trạng thái</th></tr>';
   approvedAwards.forEach(a => {
-    html += `
-      <tr>
-        <td>${a.title}</td>
-        <td>${a.user}</td>
-        <td>
-          ${a.minhChung.map((img, i) => `<img src="${img}" alt="Minh chứng ${i+1}" width="50">`).join('')}
-        </td>
-        <td>Approved</td>
-      </tr>
-    `;
-  });
+  html += `
+    <tr>
+      <td>${a.title}</td>
+      <td>${a.user}</td>
+      <td>
+        ${(a.minhChung || []).map((img, i) => `<img src="${img}" alt="Minh chứng ${i+1}" width="50">`).join('')}
+      </td>
+      <td>Approved</td>
+    </tr>
+  `;
+});
+
   html += '</table>';
 
   container.innerHTML = html;
