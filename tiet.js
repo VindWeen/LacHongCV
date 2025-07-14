@@ -1,12 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   // === NHÂN VIÊN ===
-  const hotenInput = document.querySelector('.input-row-nhanvien .hoten');
-  const msnvInput = document.querySelector('.input-row-nhanvien .msnv');
-  const donviInput = document.querySelector('.input-row-nhanvien .donvi');
-  const miengiamInput = document.querySelector('.input-row-nhanvien .miengiam');
-  const btnLuuNhanVien = document.querySelector('.luu-nhanvien');
+  const nhanvienGrid = document.querySelector('.input-row-nhanvien');
+  let hotenInput, msnvInput, donviInput, miengiamInput, btnLuuNhanVien;
 
-  btnLuuNhanVien.addEventListener('click', function(e) {
+  if (nhanvienGrid) {
+    nhanvienGrid.innerHTML = `
+    <input type="text" class="input hoten" placeholder="Họ và tên">
+    <input type="text" class="input msnv" placeholder="MSNV">
+    <select class="input donvi">
+      <option value="">Chọn đơn vị</option>
+      <option value="Khoa công nghệ thông tin">Khoa công nghệ thông tin</option>
+      <option value="Khoa tài chính">Khoa tài chính</option>
+      <option value="Khoa cơ điện">Khoa cơ điện</option>
+      <option value="Khoa công nghệ thực phẩm">Khoa công nghệ thực phẩm</option>
+      <option value="Khoa đông phương học">Khoa đông phương học</option>
+    </select>
+    <input type="text" class="input miengiam" placeholder="Mức miễn giảm">
+  `;
+
+    hotenInput = nhanvienGrid.querySelector('.hoten');
+    msnvInput = nhanvienGrid.querySelector('.msnv');
+    donviInput = nhanvienGrid.querySelector('.donvi');
+    miengiamInput = nhanvienGrid.querySelector('.miengiam');
+    btnLuuNhanVien = document.querySelector('.luu-nhanvien');
+  }
+
+  btnLuuNhanVien.addEventListener('click', function (e) {
     e.preventDefault();
     const user = localStorage.getItem('loggedInUser');
     if (!user) {
@@ -15,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const hoten = hotenInput.value.trim();
     const msnv = msnvInput.value.trim();
-    const donvi = donviInput.value.trim();
+    const donvi = donviInput.value;
     const miengiam = miengiamInput.value.trim();
     if (!hoten || !msnv || !donvi) {
       alert('Vui lòng nhập đầy đủ thông tin!');
@@ -89,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     [selectCap, selectNhiemVu, selectNghiemThu].forEach(el => el.addEventListener('change', calcKetQua));
     calcKetQua();
 
-    renderDetaiList = function() {
+    renderDetaiList = function () {
       tbody.innerHTML = "";
       const user = localStorage.getItem('loggedInUser');
       if (!user) return;
@@ -217,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
     [selectTheLoai, selectNhiemVuGT, selectNghiemThuGT].forEach(el => el.addEventListener('change', calcKetQuaGT));
     calcKetQuaGT();
 
-    renderGiaotrinhList = function() {
+    renderGiaotrinhList = function () {
       tbodyGT.innerHTML = "";
       const user = localStorage.getItem('loggedInUser');
       if (!user) return;
@@ -354,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     calcKetQuaBB();
 
-    renderBaibaoList = function() {
+    renderBaibaoList = function () {
       tbodyBB.innerHTML = "";
       const user = localStorage.getItem('loggedInUser');
       if (!user) return;
@@ -434,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // === LƯU TOÀN BỘ ===
-  document.querySelector('.luu-tong').addEventListener('click', function(e) {
+  document.querySelector('.luu-tong').addEventListener('click', function (e) {
     e.preventDefault();
     const user = localStorage.getItem('loggedInUser');
     if (!user) {
@@ -562,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let usersList = JSON.parse(localStorage.getItem('users_has_full_info')) || [];
     const tbody = document.getElementById('bang-tong-hop');
     tbody.innerHTML = '';
-    usersList.forEach(function(username) {
+    usersList.forEach(function (username) {
       // Lấy thông tin từng phần
       let detai = JSON.parse(localStorage.getItem('detai_' + username)) || [];
       let giaotrinh = JSON.parse(localStorage.getItem('giaotrinh_' + username)) || [];
@@ -571,8 +590,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (detai.length && giaotrinh.length && baibao.length) {
         // Lấy tổng tiết
         let tong = detai.reduce((s, i) => s + (Number(i.ketqua) || 0), 0)
-                + giaotrinh.reduce((s, i) => s + (Number(i.ketqua) || 0), 0)
-                + baibao.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
+          + giaotrinh.reduce((s, i) => s + (Number(i.ketqua) || 0), 0)
+          + baibao.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
         let datStr = tong >= 150 ? "Đạt" : "Không đạt";
         // Lấy tên tác giả
         let nhanvien = JSON.parse(localStorage.getItem('nhanvien_' + username));
@@ -651,7 +670,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Gọi cho các input file (sau khi các input đã được render vào DOM)
-  setTimeout(function() {
+  setTimeout(function () {
     setupCustomFileInput('.minhchung-detai', "Chọn file minh chứng");
     setupCustomFileInput('.minhchung-gt', "Chọn file minh chứng");
     setupCustomFileInput('.minhchung-bb', "Chọn file minh chứng");
@@ -704,8 +723,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
         <th style="${tableHeaderStyle}">Nghiệm thu</th>
         <th style="${tableHeaderStyle}">Kết quả</th>
       </tr>
-      ${
-        detai.map(row => `
+      ${detai.map(row => `
           <tr>
             <td style="text-align:center">${row.tendetai || ''}</td>
             <td style="text-align:center">${row.capText || ''}</td>
@@ -715,7 +733,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
             <td style="text-align:center">${row.ketqua || ''}</td>
           </tr>
         `).join('')
-      }
+    }
     </table>
     
     <h2 style="text-align:left;color:#1766a5;font-size:1.22em;">II. Giáo trình</h2>
@@ -728,8 +746,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
         <th style="${tableHeaderStyle}">Nghiệm thu</th>
         <th style="${tableHeaderStyle}">Kết quả</th>
       </tr>
-      ${
-        giaotrinh.map(row => `
+      ${giaotrinh.map(row => `
           <tr>
             <td style="text-align:center">${row.ten || ''}</td>
             <td style="text-align:center">${row.theloaiText || ''}</td>
@@ -739,7 +756,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
             <td style="text-align:center">${row.ketqua || ''}</td>
           </tr>
         `).join('')
-      }
+    }
     </table>
     
     <h2 style="text-align:left;color:#1766a5;font-size:1.22em;">III. Bài báo</h2>
@@ -752,8 +769,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
         <th style="${tableHeaderStyle}">Nghiệm thu</th>
         <th style="${tableHeaderStyle}">Kết quả</th>
       </tr>
-      ${
-        baibao.map(row => `
+      ${baibao.map(row => `
           <tr>
             <td style="text-align:center">${row.ten || ''}</td>
             <td style="text-align:center">${row.theloaiText || ''}</td>
@@ -763,7 +779,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
             <td style="text-align:center">${row.ketqua || ''}</td>
           </tr>
         `).join('')
-      }
+    }
     </table>
   `;
 
@@ -777,7 +793,7 @@ document.querySelector('.in-word').addEventListener('click', function () {
 
   document.body.appendChild(link);
   link.click();
-  setTimeout(function() {
+  setTimeout(function () {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }, 100);
