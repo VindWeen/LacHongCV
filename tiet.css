@@ -91,14 +91,15 @@ body {
 }
 
 /* Phần nhập thông tin nhân viên căn giữa và đẹp */
+/* Thông tin nhân viên */
 .input-row-nhanvien {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  align-items: center;
   margin-bottom: 0;
   margin-top: 18px;
 }
-
 .input-row-nhanvien .input {
   box-sizing: border-box;
   padding: 13px 18px;
@@ -111,12 +112,10 @@ body {
   max-width: 265px;
   width: 100%;
 }
-
 .input-row-nhanvien .input:focus {
   border-color: #2176c7;
   outline: none;
 }
-
 /* Sử dụng grid cho nhóm input chính */
 .input-grid {
   display: grid;
@@ -464,3 +463,5 @@ form .input-grid + .input-grid {
     max-width: 120px;
   }
 }
+
+
