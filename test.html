@@ -1,478 +1,152 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8" />
-  <title>Thông tin cá nhân</title>
-  <link rel="stylesheet" href="./test.css">
+  <meta charset="UTF-8">
+  <title>Thông tin nhân viên</title>
+  <link rel="stylesheet" href="tiet.css">
 </head>
-
 <body>
-  <!-- Header -->
   <header class="site-header">
-    <img src="https://raw.githubusercontent.com/VindWeen/Image/refs/heads/main/Logo_LHU_ASU_Viet.png"
-      alt="Đại học Lạc Hồng">
-    <div style="text-align: center;">
-      <div class="header-title">Trường Đại học Lạc Hồng</div>
-    </div>
-    <div style="width: 39%; display: flex; gap: 10px; font-size: 10px; font-weight: bolder; text-align: right;">
+        <img src="https://raw.githubusercontent.com/VindWeen/Image/refs/heads/main/Logo_LHU_ASU_Viet.png"
+            alt="Đại học Lạc Hồng">
+        <div class="header-title">Nhập thông tin nhân viên</div>
+        <div style="width: 39%; display: flex; gap: 10px; font-size: 15px; font-weight: bolder; text-align: right;">
       <a href="giaithuong.html" style=" color: white;">Đến trang giải thưởng</a>
-      <a href="tietkhoahoc.html" style=" color: white;">Đến trang tiết nghĩa vụ-Lộc</a>
-      <a href="tiet.html" style=" color: white;">Đến trang tiết nghĩa vụ-Quang</a>
+      <a href="test.html" style=" color: white;">Đến trang chủ</a>
       <a href="sanpham.html" style=" color: white;">Đến trang quản lý sản phẩm</a>
     </div>
-  </header>
-
-  <!-- Main -->
-  <div class="main-wrapper">
-    <!-- Left Banner -->
-    <div class="left">
-      <div class="left-banner">
-        <img src="./poster_left.jpg" style="width:100%; height: 100%; object-fit: cover; border-radius:8px;"
-          alt="Left Banner">
-      </div>
-
-      <!-- <div class="left-banner">
-        <img src="./poster_2.png" style="width:100%;border-radius:8px;">
-      </div>
-      <div class="left-banner">
-        <img src="./poster_l3.png" style="width:100%;border-radius:8px;">
-      </div> -->
-    </div>
-
-    <!-- Middle -->
-    <div class="middle">
-      <div class="profile-section">
-        <div class="profile-left">
-          <img id="avatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
-          <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-          <div class="profile-name" id="profileName">Họ và Tên</div>
-          <div class="profile-email" id="profileEmail">Email</div>
-          <div class="profile-note">Được định danh bởi VNeID</div>
-          <div style="margin-top: 10px;">
-            <button onclick="window.location='index.html'">Đăng xuất</button>
+    </header>
+  <h1 class="main-title">Nhập thông tin tiết</h1>
+  <div class="main-layout">
+    <div class="left-content">
+      <div class="form-container-wide">
+        <h2 class="section-title">Nhập thông tin nhân viên</h2>
+        <form autocomplete="off">
+          <div class="input-row-nhanvien">
+            <input type="text" class="input hoten" placeholder="Họ và tên">
+            <input type="text" class="input msnv" placeholder="MSNV">
+            <input type="text" class="input donvi" placeholder="Đơn vị">
+            <input type="text" class="input miengiam" placeholder="Mức miễn giảm">
           </div>
-        </div>
-
-        <div class="profile-right">
-          <h3>A. Thông tin cá nhân</h3>
-          <form class="profile-form" id="infoForm">
-            <!-- Họ tên, Ngày sinh, Giới tính -->
-            <div class="form-row">
-              <div class="form-group">
-                <label>Họ và tên*</label>
-                <input type="text" id="fullName" required>
-              </div>
-              <div class="form-group">
-                <label>Ngày sinh*</label>
-                <input type="date" id="dob" required>
-              </div>
-              <div class="form-group">
-                <label>Giới tính*</label>
-                <select id="gender" required>
-                  <option value="Nam">Nam</option>
-                  <option value="Nữ">Nữ</option>
-                  <option value="Khác">Khác</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Học vị, Chức danh khoa học -->
-            <div class="form-row">
-              <div class="form-group">
-                <label>Học vị*</label>
-                <input type="text" id="degree" placeholder="Cử nhân, Thạc sĩ, Tiến sĩ" required>
-              </div>
-              <div class="form-group" style="width: 200px;">
-                <label>Chức danh khoa học</label>
-                <select id="academicTitle">
-                  <option value="">-- Chọn --</option>
-                  <option value="Phó giáo sư">Phó giáo sư</option>
-                  <option value="Giáo sư">Giáo sư</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Chức vụ</label>
-                <select id="position">
-                  <option value="">-- Chọn --</option>
-                  <option value="">Null</option>
-                  <option value="Chuyên viên">Chuyên viên</option>
-                  <option value="Phó giáo sư">Phó giáo sư</option>
-                  <option value="Giáo sư">Giáo sư</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Năm bổ nhiệm</label>
-                <input type="date" id="year" required>
-              </div>
-            </div>
-
-            <!-- Quê quán, Dân tộc -->
-            <div class="form-row">
-              <div class="form-group">
-                <label>Quê quán</label>
-                <input type="text" id="hometown">
-              </div>
-              <div class="form-group">
-                <label>Dân tộc</label>
-                <input type="text" id="ethnicity">
-              </div>
-            </div>
-
-            <!-- Số CCCD, Email chính, Email thay thế -->
-            <div class="form-row">
-              <!-- <div class="form-group">
-                <label>Số CCCD*</label>
-                <input type="text" id="cccd" required>
-              </div> -->
-              <div class="form-group">
-                <label>Email chính*</label>
-                <input type="email" id="email" required>
-              </div>
-              <div class="form-group">
-                <label>Email thay thế</label>
-                <input type="email" id="altEmail" placeholder="Email khác">
-              </div>
-            </div>
-
-            <!-- Điện thoại liên hệ, Tên cơ quan công tác -->
-            <div class="form-row">
-              <div class="form-group">
-                <label>Điện thoại liên hệ*</label>
-                <input type="text" id="phone" required>
-              </div>
-              <div class="form-group">
-                <label>Tên cơ quan công tác</label>
-                <input type="text" id="workplace">
-              </div>
-            </div>
-
-            <!-- Địa chỉ cơ quan, Tỉnh/TP -->
-            <div class="form-row">
-              <div class="form-group">
-                <label>Địa chỉ cơ quan</label>
-                <input type="text" id="workAddress">
-              </div>
-              <div class="form-group">
-                <label>Tỉnh/TP</label>
-                <input type="text" id="province">
-              </div>
-            </div>
-
-            <div style="text-align: center;">
-              <button type="button" class="btn-main" id="btnSave">Lưu</button>
-            </div>
-          </form>
-
-          <div id="infoTableContainer"></div>
-        </div>
-
-      </div>
-      <!-- B. Quá trình đào tạo -->
-      <div class="list-section">
-        <div class="section-title">B. Quá trình đào tạo</div>
-        <form id="eduForm" style="padding-bottom: 15px;">
-          <div class="form-row">
-            <div class="form-col">
-              <input type="text" id="eduDegree" placeholder="Học vị" required />
-            </div>
-            <div class="form-col">
-              <input type="text" id="eduMajor" placeholder="Chuyên ngành" required />
-            </div>
-            <div class="form-col">
-              <input type="text" id="eduSchool" placeholder="Nơi đào tạo" required />
-            </div>
-            <div class="form-col">
-              <input type="text" id="eduCountry" placeholder="Nước đào tạo" required />
-            </div>
-            <div class="form-col">
-              <input type="number" id="eduYear" placeholder="Năm tốt nghiệp" required />
-            </div>
-            <div class="form-col" style="align-items: flex-end;">
-              <button type="submit" class="btn-main"
-                style="padding:10px 20px; width: 200px; border-radius: 8px;">Thêm</button>
-            </div>
+          <div class="button-row">
+            <button type="button" class="add-btn luu-nhanvien">+ Lưu thông tin</button>
           </div>
         </form>
-
-        <!-- Bảng quá trình đào tạo -->
-        <table class="info-table" id="eduTable">
+      </div>
+      <!-- Đề tài khoa học -->
+      <div class="form-container-wide">
+        <h2 class="section-title">I. Đề tài khoa học</h2>
+        <form autocomplete="off">
+          <div class="input-grid">
+            <!-- JS sẽ render lại các input/select/file ở đây -->
+          </div>
+          <div class="button-row">
+            <button type="button" class="add-btn luu-detai">+ Lưu đề tài</button>
+          </div>
+        </form>
+        <table class="product-table bang-detai">
           <thead>
             <tr>
-              <td>TT</td>
-              <td>Học vị</td>
-              <td>Chuyên ngành</td>
-              <td>Nơi đào tạo</td>
-              <td>Nước đào tạo</td>
-              <td>Năm tốt nghiệp</td>
-              <td>Xóa</td>
-
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dòng thêm mới sẽ hiện ở đây -->
-          </tbody>
-        </table>
-
-        <div style="text-align: center; margin-top: 20px;">
-          <button type="button" class="btn-main" id="btnSaveEdu" style="width: 150px;">Lưu quá trình đào tạo</button>
-        </div>
-      </div>
-
-
-      <!-- C. Quá trình công tác chuyên môn -->
-      <div class="list-section">
-        <div class="section-title">C. Quá trình công tác chuyên môn</div>
-        <form id="workForm" style="padding-bottom: 15px;">
-          <div class="form-row">
-            <div class="form-col">
-              <input type="text" id="workTime" placeholder="Thời gian (VD: 2009 - 2018)" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="workPlace" placeholder="Nơi công tác" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="workJob" placeholder="Công việc đảm nhiệm" required>
-            </div>
-            <div class="form-col" style="align-items: flex-end;">
-              <button type="submit" class="btn-main" style="padding:10px 20px; width: 200px;">Thêm</button>
-            </div>
-          </div>
-        </form>
-
-        <table class="info-table" id="workTable">
-          <thead>
-            <tr>
-              <td>TT</td>
-              <td>Thời gian</td>
-              <td>Nơi công tác</td>
-              <td>Công việc đảm nhiệm</td>
-              <td>Xóa</td>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div style="text-align: center; margin-top: 20px;">
-          <button type="button" class="btn-main" id="btnSaveWork" style="width: 200px;">Lưu quá trình công tác</button>
-        </div>
-      </div>
-      <!-- D. Ngoại ngữ -->
-      <div class="list-section">
-        <div class="section-title">D. Ngoại ngữ</div>
-        <p><em>(Nhận xét theo các mức: A- Yếu; B- Trung bình; C- Khá; D- Thành thạo)</em></p>
-        <form id="languageForm" style="padding-bottom: 15px;">
-          <div class="form-row">
-            <div class="form-col">
-              <input type="text" id="languageName" placeholder="Ngoại ngữ (VD: Tiếng Anh)" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="langRead" placeholder="Đọc" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="langWrite" placeholder="Viết" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="langListen" placeholder="Nghe" required>
-            </div>
-            <div class="form-col">
-              <input type="text" id="langSpeak" placeholder="Nói" required>
-            </div>
-            <div class="form-col" style="align-items: flex-end;">
-              <button type="submit" class="btn-main" style="padding:10px 20px; width: 200px;">Thêm</button>
-            </div>
-          </div>
-        </form>
-
-        <table class="info-table" id="languageTable">
-          <thead>
-            <tr>
-              <td>TT</td>
-              <td>Ngoại ngữ</td>
-              <td>Đọc</td>
-              <td>Viết</td>
-              <td>Nghe</td>
-              <td>Nói</td>
-              <td>Xóa</td>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
-        <div style="text-align: center; margin-top: 20px;">
-          <button type="button" class="btn-main" id="btnSaveLanguage" style="width: 200px;">Lưu ngoại ngữ</button>
-        </div>
-      </div>
-      <!-- E. Kinh nghiệm và Thành tích nghiên cứu -->
-      <div class="list-section">
-        <div class="section-title">E. Các đề tài chuyển giao khoa học công nghệ</div>
-
-        <!-- Kinh nghiệm -->
-        <h4 class="section-title">Kinh nghiệm</h4>
-        <form id="experienceForm" style="margin-bottom: 10px;">
-          <textarea id="experienceInput" rows="2" placeholder="Nhập kinh nghiệm..." style="width: 98%; padding: 10px;"
-            required></textarea>
-          <div style="text-align: center; margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
-            <button type="submit" class="btn-main" style="width: 150px;">Thêm kinh nghiệm</button>
-            <button type="button" class="btn-main" id="btnSaveExperience" style="width: 180px;">Lưu kinh nghiệm</button>
-          </div>
-        </form>
-        <ul id="experienceList" style="padding-left: 20px;"></ul>
-        <div style="text-align: center; margin-top: 10px;">
-
-        </div>
-
-        <!-- Thành tích -->
-        <h4 style="margin-top: 30px;" class="section-title">• Thành tích</h4>
-        <form id="achievementForm" style="margin-bottom: 10px;">
-          <textarea id="achievementInput" rows="2" placeholder="Nhập thành tích..." style="padding: 10px; width: 98%;"
-            required></textarea>
-          <div style="text-align: center; margin-top: 10px;">
-            <button type="submit" class="btn-main" style="width: 150px;">Thêm thành tích</button>
-            <button type="button" class="btn-main" id="btnSaveAchievement" style="width: 180px;">Lưu thành tích</button>
-          </div>
-        </form>
-        <ul id="achievementList" style="padding-left: 20px;"></ul>
-      </div>
-      <!-- F. Hướng nghiên cứu chính -->
-      <div class="list-section">
-        <div class="section-title">F. Hướng nghiên cứu chính</div>
-        <form id="researchForm" style="margin-bottom: 10px;">
-          <textarea id="researchInput" rows="2" placeholder="Nhập hướng nghiên cứu..."
-            style="width: 98%; padding: 10px;" required></textarea>
-          <div style="text-align: center; margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
-            <button type="submit" class="btn-main" style="width: 180px;">Thêm hướng nghiên cứu</button>
-            <button type="button" class="btn-main" id="btnSaveResearch" style="width: 180px;">Lưu hướng nghiên
-              cứu</button>
-          </div>
-        </form>
-        <ul id="researchList" style="padding-left: 20px;"></ul>
-      </div>
-      <!-- G. Chủ nhiệm hoặc tham gia đề tài KH&CN -->
-      <div class="list-section">
-        <div class="section-title">G. Chủ nhiệm hoặc tham gia đề tài khoa học và công nghệ đã nghiệm thu</div>
-        <form id="projectForm" style="margin-bottom: 15px;">
-          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <input type="text" id="projectName" placeholder="Tên đề tài/dự án" required class="input-text"
-              style="flex: 2;">
-            <input type="text" id="fundingAgency" placeholder="Cơ quan tài trợ" required class="input-text"
-              style="flex: 1.2;">
-            <input type="text" id="duration" placeholder="Thời gian thực hiện" required class="input-text"
-              style="flex: 1;">
-            <input type="text" id="role" placeholder="Vai trò" required class="input-text" style="flex: 1;">
-          </div>
-          <div style="text-align: center; margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-            <button type="submit" class="btn-main" style="width: 180px;">Thêm đề tài</button>
-            <button type="button" class="btn-main" id="btnSaveProjects" style="width: 180px;">Lưu đề tài</button>
-          </div>
-        </form>
-        <table id="projectTable" class="info-table">
-          <thead>
-            <tr>
-              <th>TT</th>
-              <th>Tên đề tài/dự án</th>
-              <th>Cơ quan tài trợ kinh phí</th>
-              <th>Thời gian thực hiện</th>
-              <th>Vai trò</th>
+              <th>Cấp</th>
+              <th>Nhiệm vụ</th>
+              <th>Minh chứng</th>
+              <th>Nghiệm thu</th>
+              <th>Kết quả</th>
               <th>Xóa</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody id="bang-noidung-detai"></tbody>
         </table>
       </div>
-      <!-- === Công trình khoa học đã công bố === -->
-      <div class="section">
-        <h3 class="section-title">H. Công trình khoa học đã công bố:</h3>
-
-        <div class="form-row">
-          <div class="form-col">
-            <input type="text" id="pubAuthor" placeholder="Tên tác giả">
+      <!-- Giáo trình -->
+      <div class="form-container-wide">
+        <h2 class="section-title">II. Giáo trình</h2>
+        <form autocomplete="off">
+          <div class="input-grid">
+            <!-- <input type="text" class="input tengaotrinh" placeholder="Tên giáo trình">
+            <input type="text" class="input theloai-gt" placeholder="Thể loại">
+            <input type="text" class="input minhchung-gt" placeholder="Minh chứng">
+            <input type="text" class="input nhiemvu-gt" placeholder="Nhiệm vụ">
+            <span></span>
+            <input type="text" class="input nghiemthu-gt" placeholder="Nghiệm thu">
+            <input type="text" class="input ketqua-gt" placeholder="Kết quả"> -->
           </div>
-          <div class="form-col">
-            <input type="text" id="pubTitle" placeholder="Tên công trình khoa học">
+          <div class="button-row">
+            <button type="button" class="add-btn luu-gt">+ Lưu giáo trình</button>
           </div>
-          <div class="form-col">
-            <input type="text" id="pubJournal" placeholder="Tạp chí / Hội thảo">
-          </div>
-          <div class="form-col">
-            <input type="text" id="pubNote" placeholder="Ghi chú (IF, Quartile...)">
-          </div>
-
-        </div>
-        <div style="text-align: center; margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-          <button id="btnAddPublication" class="btn-main">Thêm</button>
-          <button id="btnSavePublication" class="btn-main">Lưu</button>
-        </div>
-        <table class="info-table">
+        </form>
+        <table class="product-table bang-giaotrinh">
           <thead>
             <tr>
-              <th>TT</th>
+              <th>Tên giáo trình</th>
+              <th>Thể loại</th>
+              <th>Minh chứng</th>
+              <th>Nhiệm vụ</th>
+              <th>Nghiệm thu</th>
+              <th>Kết quả</th>
+              <th>Xóa</th>
+            </tr>
+          </thead>
+          <tbody id="bang-noidung-giaotrinh"></tbody>
+        </table>
+      </div>
+      <!-- Bài báo -->
+      <div class="form-container-wide">
+        <h2 class="section-title">III. Bài báo</h2>
+        <form autocomplete="off">
+          <div class="input-grid">
+            <!-- <input type="text" class="input tenbaibao" placeholder="Tên bài báo">
+            <input type="text" class="input theloai-bb" placeholder="Thể loại">
+            <input type="text" class="input minhchung-bb" placeholder="Minh chứng">
+            <input type="text" class="input tacgia" placeholder="Tác giả">
+            <span></span>
+            <input type="text" class="input nghiemthu-bb" placeholder="Nghiệm thu">
+            <input type="text" class="input ketqua-bb" placeholder="Kết quả"> -->
+          </div>
+          <div class="button-row">
+            <button type="button" class="add-btn luu-bb">+ Lưu bài báo</button>
+          </div>
+        </form>
+        <table class="product-table bang-baibao">
+          <thead>
+            <tr>
+              <th>Tên bài báo</th>
+              <th>Thể loại</th>
+              <th>Minh chứng</th>
               <th>Tác giả</th>
-              <th>Tên công trình</th>
-              <th>Tạp chí / Hội thảo</th>
-              <th>Ghi chú</th>
+              <th>Nghiệm thu</th>
+              <th>Kết quả</th>
               <th>Xóa</th>
             </tr>
           </thead>
-          <tbody id="pubTableBody"></tbody>
+          <tbody id="bang-noidung-baibao"></tbody>
         </table>
       </div>
-
-      <div style="text-align: center; margin-top: 10px; display: flex; gap: 40px; justify-content: center; size: 50px;">
-        <button type="button" class="btn-main" onclick="toWord()" id="btnExportWord" style="width: 150px;">In ra file
-          Word</button>
+      <!-- Tổng số tiết -->
+      <div class="tong-so-tiet-row">
+        <div id="tong-so-tiet" class="tong-so-tiet-label">Tổng số tiết: 0 - Không đạt</div>
+      </div>
+      <div class="action-row">
+        <button class="add-btn luu-tong">💾 Lưu toàn bộ</button>
+        <button class="add-btn in-word">🖨️ In ra Word</button>
       </div>
     </div>
-
-
-    <!-- Right Banner -->
-    <div class="right">
-      <div class="right-banner">
-        <h3 style="text-align: center;">Danh sách tài khoản</h3>
-        <table border="1" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <aside class="right-banner">
+      <div class="banner-card">
+        <h2 class="banner-title">Tổng hợp tiết theo tác giả</h2>
+        <table class="banner-table">
           <thead>
             <tr>
-              <th>Họ tên</th>
-              <th>Chức vụ</th>
-              <th>Trang cá nhân</th>
+              <th>Tên tác giả</th>
+              <th>Số tiết</th>
+              <th>Kết quả</th>
             </tr>
           </thead>
-          <tbody id="userTableBodyRight">
-            <!-- Dữ liệu sẽ được render bằng JS -->
-          </tbody>
+          <tbody id="bang-tong-hop"></tbody>
         </table>
       </div>
-    </div>
-    
+    </aside>
   </div>
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-left">
-      <img src="https://github.com/VindWeen/Image/blob/main/Logo_white_Vi.png?raw=true" alt="Logo Lạc Hồng"
-        style=" width: 200px; padding-top: 0px;">
-    </div>
-    <div class="footer-center" style="font-weight: bold;">
-      <p>Địa chỉ: Số 10, Huỳnh Văn Nghệ, P. Bửu Long, Tp. Biên Hòa - Tỉnh Đồng Nai</p>
-      <p>Điện thoại: 0251 3952 778</p>
-      <p>Email: lachong@lhu.edu.vn</p>
-      <p>© 2025 Đại học Lạc Hồng</p>
-    </div>
-    <div class="footer-right">
-      <div class="logo-lachong" style="display: flex;">
-        <a href="https://me.lhu.edu.vn/">
-          <img src="https://api.lhu.edu.vn/MeCDN/img/me-logo.png" alt="App Logo"
-            style="width:40px; margin:10px 0;margin-right: 30px;">
-        </a>
-        <a href="https://learn.lhu.edu.vn/my/">
-          <img src="https://github.com/VindWeen/Image/blob/main/Logo_LHU_ASU_Viet.png?raw=true" alt=""
-            style="width: 100px; height: 40px; "></a>
-      </div>
-      <a href="https://apps.apple.com/us/app/me-app/id1278107318?l=vi"><img
-          src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"
-          style="width:140px; padding-right: 50px;"></a>
-    </div>
-  </footer>
-  <script src="test.js"></script>
+  <script src="tiet.js"></script>
 </body>
-
 </html>
