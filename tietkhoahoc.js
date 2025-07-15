@@ -12,17 +12,17 @@ function getArrayFromStorage(key) {
   return arr;
 }
 
-// --------- LẤY USER ĐANG CHỌN (chỉ 1 dòng user hiện tại) ---------
+// --------- LẤY USER ĐANG CHỌN (dùng index nếu muốn, mặc định lấy user đầu tiên) ---------
 function getCurrentUser() {
-  let users = getArrayFromStorage("users");
+  let users = getArrayFromStorage("staff_users");
   return users.length ? users[0] : null;
 }
 
-// --------- BẢNG NHÂN VIÊN (chỉ được lưu 1 dòng duy nhất) ----------
+// --------- BẢNG NHÂN VIÊN (cho phép lưu nhiều dòng) ----------
 function renderUserInfoTable() {
   const tbody = document.querySelector("#user-info-table tbody");
   tbody.innerHTML = "";
-  const users = getArrayFromStorage("users");
+  const users = getArrayFromStorage("staff_users");
   if (users.length === 0) return;
   users.forEach((user, idx) => {
     const tr = document.createElement("tr");
@@ -41,17 +41,19 @@ function renderUserInfoTable() {
   // Bắt sự kiện xóa cho bảng nhân viên
   document.querySelectorAll(".btn-delete-row[data-user]").forEach(btn => {
     btn.onclick = function() {
-      let users = getArrayFromStorage("users");
+      let users = getArrayFromStorage("staff_users");
       users.splice(parseInt(this.getAttribute("data-user")), 1);
-      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("staff_users", JSON.stringify(users));
       renderUserInfoTable();
       updateAllTables();
     };
   });
 
-  document.getElementById("btnUserLuu").disabled = users.length > 0;
+  // Cho phép nhập thêm nhiều dòng (không disable)
+  document.getElementById("btnUserLuu").disabled = false;
 }
 
+// Nút lưu nhân viên: không giới hạn số dòng
 document.getElementById("btnUserLuu").onclick = function() {
   const name = document.getElementById("userName").value.trim();
   const msnv = document.getElementById("userMSNV").value.trim();
@@ -61,13 +63,9 @@ document.getElementById("btnUserLuu").onclick = function() {
     alert("Vui lòng nhập đầy đủ thông tin!");
     return;
   }
-  const users = getArrayFromStorage("users");
-  if (users.length >= 1) {
-    alert("Chỉ được lưu 1 dòng thông tin nhân viên! Nếu muốn nhập lại, hãy xóa dòng hiện tại.");
-    return;
-  }
+  const users = getArrayFromStorage("staff_users");
   users.push({ name, msnv, donvi, miengiam });
-  localStorage.setItem("users", JSON.stringify(users));
+  localStorage.setItem("staff_users", JSON.stringify(users));
   renderUserInfoTable();
   document.getElementById("userName").value = "";
   document.getElementById("userMSNV").value = "";
@@ -75,6 +73,7 @@ document.getElementById("btnUserLuu").onclick = function() {
   document.getElementById("userMienGiam").selectedIndex = 0;
   updateAllTables();
 };
+
 window.addEventListener("DOMContentLoaded", renderUserInfoTable);
 
 // --------- ĐỀ TÀI KHOA HỌC ----------
@@ -240,7 +239,7 @@ function renderUserSummaryTable() {
   const tbody = document.querySelector("#user-summary-table tbody");
   if (!tbody) return;
   tbody.innerHTML = "";
-  const users = getArrayFromStorage("users");
+  const users = getArrayFromStorage("staff_users");
   if (!users.length) return;
   // Với mỗi user, tính tổng tiết từ các bảng nhỏ (chỉ cộng các dòng có msnv trùng)
   users.forEach(user => {
@@ -530,11 +529,9 @@ document.getElementById("btnSaveAll").onclick = function() {
   }
 };
 
-// ... giữ nguyên toàn bộ code như trước ...
-
 // --- NÚT "IN RA WORD" --- 
 function getPrintHTML() {
-  let users = getArrayFromStorage("users");
+  let users = getArrayFromStorage("staff_users");
   let curUser = getCurrentUser();
   if (!curUser) return "Không có dữ liệu nhân viên!";
   let detai = getArrayFromStorage("detai_users").filter(x => x.msnv === curUser.msnv);
