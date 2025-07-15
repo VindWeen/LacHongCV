@@ -43,7 +43,7 @@ document.getElementById('awardForm').addEventListener('submit', function (e) {
     diaChi: form.elements['donVi'].value.trim(),
     datGiai: form.elements['datGiai'].value.trim(),
     tien: form.elements['tien'].value.trim(),
-    minhChung: ghiChuBase64 ? [ghiChuBase64] : [], // 🟢 Ảnh Base64
+    minhChung: ghiChuBase64 ? [ghiChuBase64] : [],
     link: form.elements['link'].value.trim(),
     status: 'pending',
     user: localStorage.getItem('loggedInUser')
@@ -54,6 +54,9 @@ document.getElementById('awardForm').addEventListener('submit', function (e) {
   const viewingUser = newAward.user;
   if (!users[viewingUser]) {
     users[viewingUser] = { awards: [] };
+  }
+  if (!Array.isArray(users[viewingUser].awards)) {
+    users[viewingUser].awards = [];
   }
   users[viewingUser].awards.push(newAward);
   localStorage.setItem('users', JSON.stringify(users));
@@ -74,16 +77,22 @@ document.getElementById('awardForm').addEventListener('submit', function (e) {
   renderApprovedAwards();
 });
 
-// Bảng chờ xét duyệt
+// SỬA: Bảng chờ xét duyệt - lấy từ global awards, chỉ của user hiện tại
 function renderAwardTable() {
   const viewingUser = localStorage.getItem('loggedInUser');
-  const users = JSON.parse(localStorage.getItem('users')) || {};
-  const awards = (users[viewingUser] && users[viewingUser].awards) || [];
+  const globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
+  // Lấy các giải thưởng của user hiện tại, status pending
+  const pendingAwards = globalAwards.filter(a => a.user === viewingUser && a.status === 'pending');
 
   const tbody = document.getElementById('awardTableBody');
   tbody.innerHTML = '';
 
-  awards.filter(a => a.status === 'pending').forEach((award, index) => {
+  if (pendingAwards.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; color:#888;">Không có giải thưởng chờ duyệt</td></tr>`;
+    return;
+  }
+
+  pendingAwards.forEach((award, index) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${index + 1}</td>
@@ -94,22 +103,27 @@ function renderAwardTable() {
       <td>${award.datGiai}</td>
       <td>${award.tien}</td>
       <td>${(award.minhChung && award.minhChung.length) ? `<img src="${award.minhChung[0]}" alt="Minh chứng" width="50">` : 'Không có'}</td>
-
       <td><a href="${award.link}" target="_blank">Link</a></td>
-      <td>${award.status}</td>
+      <td>Chờ xét duyệt</td>
       <td><button onclick="deleteAward(${award.awardId})">Xóa</button></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// Bảng đã duyệt
+// Bảng đã duyệt - lấy từ global awards, chỉ của user hiện tại
 function renderApprovedAwards() {
-  const awards = JSON.parse(localStorage.getItem('awards')) || [];
-  const approved = awards.filter(a => a.status === 'approved');
+  const viewingUser = localStorage.getItem('loggedInUser');
+  const globalAwards = JSON.parse(localStorage.getItem('awards')) || [];
+  const approved = globalAwards.filter(a => a.user === viewingUser && a.status === 'approved');
 
   const tbody = document.getElementById('awardApprovedTableBody');
   tbody.innerHTML = '';
+
+  if (approved.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; color:#888;">Không có giải thưởng đã duyệt</td></tr>`;
+    return;
+  }
 
   approved.forEach((award, index) => {
     const tr = document.createElement('tr');
@@ -122,9 +136,8 @@ function renderApprovedAwards() {
       <td>${award.datGiai}</td>
       <td>${award.tien}</td>
       <td>${(award.minhChung && award.minhChung.length) ? `<img src="${award.minhChung[0]}" alt="Minh chứng" width="50">` : 'Không có'}</td>
-
       <td><a href="${award.link}" target="_blank">Link</a></td>
-      <td>${award.status}</td>
+      <td>Đã xét duyệt</td>
     `;
     tbody.appendChild(tr);
   });
@@ -136,10 +149,12 @@ function deleteAward(id) {
   let global = JSON.parse(localStorage.getItem('awards')) || [];
   const viewingUser = localStorage.getItem('loggedInUser');
 
-  if (users[viewingUser]) {
+  // Xóa ở mảng user
+  if (users[viewingUser] && Array.isArray(users[viewingUser].awards)) {
     users[viewingUser].awards = users[viewingUser].awards.filter(a => a.awardId != id);
   }
-  global = global.filter(a => a.awardId != id);
+  // Xóa ở mảng global
+  global = global.filter(a => !(a.awardId == id && a.user === viewingUser));
 
   localStorage.setItem('users', JSON.stringify(users));
   localStorage.setItem('awards', JSON.stringify(global));
@@ -148,9 +163,7 @@ function deleteAward(id) {
   renderAwardTable();
   renderApprovedAwards();
 }
-renderAwardTable();
-renderApprovedAwards();
-// Render ngay khi tải trang
+
 window.addEventListener('load', () => {
   renderAwardTable();
   renderApprovedAwards();
