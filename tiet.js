@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <select class="input donvi">
       <option value="">Chọn đơn vị</option>
       <option value="Khoa công nghệ thông tin">Khoa công nghệ thông tin</option>
+      <option value="Trung tâm nghiên cứu khoa học và ứng dụng">Trung tâm nghiên cứu khoa học và ứng dụng</option>
       <option value="Khoa tài chính">Khoa tài chính</option>
       <option value="Khoa cơ điện">Khoa cơ điện</option>
       <option value="Khoa công nghệ thực phẩm">Khoa công nghệ thực phẩm</option>
