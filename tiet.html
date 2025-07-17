@@ -16,32 +16,88 @@
       <a href="test.html">Trang chủ</a>
       <a href="giaithuong.html">Trang giải thưởng</a>
       <a href="sanpham.html">Trang sản phẩm</a>
-      <a href="tietkhoahoc.html">Trang tiết nghĩa vụ-Lộc</a>
     </div>
   </header>
   <h1 class="main-title">Nhập thông tin tiết</h1>
-  <div class="main-layout">
-    <div class="left-content">
-      <div class="form-container-wide">
-        <h2 class="section-title">Nhập thông tin nhân viên</h2>
-        <form autocomplete="off">
-          <div class="input-row-nhanvien">
-            <input type="text" class="input hoten" placeholder="Họ và tên">
-            <input type="text" class="input msnv" placeholder="MSNV">
-            <input type="text" class="input donvi" placeholder="Đơn vị">
-            <input type="text" class="input miengiam" placeholder="Mức miễn giảm">
-          </div>
-          <div class="button-row">
-            <button type="button" class="add-btn luu-nhanvien">+ Lưu thông tin</button>
-          </div>
-        </form>
-      </div>
+  <div class="main-content-giant" style="justify-content:center;">
+      <div class="form-container-wide form-container-nhanvien">
+      <h2 class="section-title">Nhập thông tin nhân viên</h2>
+      <form autocomplete="off">
+        <div class="input-row-nhanvien input-row-5">
+          <!-- Dòng 1: 5 ô ngang -->
+          <input type="text" class="input hoten" placeholder="Họ và tên">
+          <input type="text" class="input msnv" placeholder="MSNV">
+          <select class="input donvi">
+            <option value="" disabled selected>Chọn đơn vị</option>
+            <option value="Khoa công nghệ thông tin">Khoa công nghệ thông tin</option>
+            <option value="Trung tâm nghiên cứu khoa học và ứng dụng">Trung tâm nghiên cứu khoa học và ứng dụng</option>
+            <option value="Khoa tài chính">Khoa tài chính</option>
+            <option value="Khoa cơ điện">Khoa cơ điện</option>
+            <option value="Khoa công nghệ thực phẩm">Khoa công nghệ thực phẩm</option>
+            <option value="Khoa đông phương học">Khoa đông phương học</option>
+          </select>
+          <select class="input miengiam" id="miengiam">
+            <option value="" disabled selected>Chọn mức miễn giảm</option>
+            <option value="150">Sinh em bé, đi học - 150</option>
+            <option value="100">Quản lý ĐTN - 100</option>
+            <option value="50">Vừa đi học vừa đi làm - 50</option>
+          </select>
+          <select class="input nhiemvu">
+            <option value="" disabled selected>Chọn nhiệm vụ</option>
+            <option value="giangvien">Giảng viên</option>
+            <option value="nhanvien">Nhân viên</option>
+            <option value="quanly">Quản lý</option>
+          </select>
+        </div>
+        <div class="input-row-nhanvien input-row-5" style="margin-top:22px;">
+          <!-- Dòng 2: 5 ô ngang -->
+          <select class="input dinhmuc">
+            <option value="" disabled selected>Định mức giờ chuẩn</option>
+            <option value="150">Thạc sĩ - 150</option>
+            <option value="100">Tiến sĩ - 100</option>
+          </select>
+          <input type="number" class="input phaituchien" placeholder="Phải thực hiện" readonly>
+          <input type="number" class="input baoluu" placeholder="Bảo lưu">
+          <input type="number" class="input thuchiennam" placeholder="Thực hiện trong năm" readonly>
+          <input type="number" class="input tongnv" placeholder="Tổng tiết NV" readonly>
+        </div>
+        <div class="button-row">
+          <button type="button" class="add-btn luu-nhanvien">+ Lưu thông tin</button>
+        </div>
+      </form>
+    </div>
       <!-- Đề tài khoa học -->
+      <!-- ... phần trên giữ nguyên ... -->
       <div class="form-container-wide">
         <h2 class="section-title">I. Đề tài khoa học</h2>
-        <form autocomplete="off">
-          <div class="input-grid">
-            <!-- JS sẽ render lại các input/select/file ở đây -->
+        <form autocomplete="off" id="form-detai">
+          <div class="input-grid" id="detai-input-grid">
+            <input type="text" class="input hoatdong-nckh" placeholder="Hoạt động NCKH">
+            <select class="input cap-detai">
+              <option value="" disabled selected>Chọn cấp</option>
+              <option value="50">Bộ - 50 tiết</option>
+              <option value="30">Tỉnh - 30 tiết</option>
+              <option value="10">Cơ sở - 10 tiết</option>
+            </select>
+            <select class="input nhiemvu-detai">
+              <option value="" disabled selected>Chọn nhiệm vụ</option>
+              <option value="50">Chủ nhiệm - 50 tiết</option>
+              <option value="25">Không chủ nhiệm - 25 tiết</option>
+            </select>
+            <select class="input nghiemthu-detai">
+              <option value="" disabled selected>Nghiệm thu</option>
+              <option value="roi">Rồi</option>
+              <option value="chua">Chưa</option>
+            </select>
+            <input type="text" class="input thoigian-detai" placeholder="Thời gian (VD: 01/2023 - 12/2023)">
+            <!-- Minh chứng file button -->
+            <span class="file-input-wrap">
+              <label class="file-input-label" for="minhchung-detai">Chọn minh chứng</label>
+              <input type="file" class="file-input-custom minhchung-detai" id="minhchung-detai" accept="image/*">
+              <span class="file-name-preview" id="minhchung-detai-preview"></span>
+            </span>
+            <input type="url" class="input linkminhchung-detai" placeholder="Link minh chứng">
+            <input type="number" class="input diemquydoi-detai" placeholder="Điểm quy đổi" readonly>
           </div>
           <div class="button-row">
             <button type="button" class="add-btn luu-detai">+ Lưu đề tài</button>
@@ -50,105 +106,183 @@
         <table class="product-table bang-detai">
           <thead>
             <tr>
+              <th>Hoạt động NCKH</th>
               <th>Cấp</th>
               <th>Nhiệm vụ</th>
-              <th>Minh chứng</th>
               <th>Nghiệm thu</th>
-              <th>Kết quả</th>
+              <th>Thời gian</th>
+              <th>Minh chứng</th>
+              <th>Link minh chứng</th>
+              <th>Điểm quy đổi</th>
               <th>Xóa</th>
             </tr>
           </thead>
           <tbody id="bang-noidung-detai"></tbody>
         </table>
       </div>
-      <!-- Giáo trình -->
-      <div class="form-container-wide">
-        <h2 class="section-title">II. Giáo trình</h2>
-        <form autocomplete="off">
-          <div class="input-grid">
-            <!-- <input type="text" class="input tengaotrinh" placeholder="Tên giáo trình">
-            <input type="text" class="input theloai-gt" placeholder="Thể loại">
-            <input type="text" class="input minhchung-gt" placeholder="Minh chứng">
-            <input type="text" class="input nhiemvu-gt" placeholder="Nhiệm vụ">
-            <span></span>
-            <input type="text" class="input nghiemthu-gt" placeholder="Nghiệm thu">
-            <input type="text" class="input ketqua-gt" placeholder="Kết quả"> -->
-          </div>
-          <div class="button-row">
-            <button type="button" class="add-btn luu-gt">+ Lưu giáo trình</button>
-          </div>
-        </form>
-        <table class="product-table bang-giaotrinh">
-          <thead>
-            <tr>
-              <th>Tên giáo trình</th>
-              <th>Thể loại</th>
-              <th>Minh chứng</th>
-              <th>Nhiệm vụ</th>
-              <th>Nghiệm thu</th>
-              <th>Kết quả</th>
-              <th>Xóa</th>
-            </tr>
-          </thead>
-          <tbody id="bang-noidung-giaotrinh"></tbody>
-        </table>
+      <!-- II. Giáo trình -->
+<div class="form-container-wide main-card">
+  <h2 class="section-title main-card-title">II. Giáo trình</h2>
+  <form autocomplete="off">
+    <div class="input-grid giaotrinh-input-grid"></div>
+    <div class="button-row">
+      <button type="button" class="add-btn luu-gt">+ Lưu giáo trình</button>
+    </div>
+  </form>
+  <table class="product-table bang-giaotrinh">
+    <thead>
+      <tr>
+        <th>Loại sách</th>
+        <th>Thể loại</th>
+        <th>Nhiệm vụ</th>
+        <th>Nơi phát hành</th>
+        <th>Thời gian</th>
+        <th>Minh chứng</th>
+        <th>Link minh chứng</th>
+        <th>Kết quả</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="bang-noidung-giaotrinh"></tbody>
+  </table>
+</div>
+
+<!-- III. Bài báo -->
+<div class="form-container-wide main-card">
+  <h2 class="section-title main-card-title">III. Bài báo</h2>
+  <form autocomplete="off">
+    <div class="input-grid baibao-input-grid"></div>
+    <div class="button-row">
+      <button type="button" class="add-btn luu-bb">+ Lưu bài báo</button>
+    </div>
+  </form>
+  <table class="product-table bang-baibao">
+    <thead>
+      <tr>
+        <th>Thể loại tạp chí</th>
+        <th>Thể loại</th>
+        <th>Tác giả</th>
+        <th>Tên tạp chí</th>
+        <th>Mã ISSN</th>
+        <th>Minh chứng</th>
+        <th>Link minh chứng</th>
+        <th>Điểm quy đổi</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="bang-noidung-baibao"></tbody>
+  </table>
+</div>
+
+<!-- Đề tài/Bài báo khác -->
+<div class="form-container-wide main-card dtbb">
+  <h2 class="section-title main-card-title">Đề tài/Bài báo khác</h2>
+  <form autocomplete="off">
+    <div class="input-grid dtbb-input-grid"></div>
+    <div class="button-row">
+      <button type="button" class="add-btn luu-dtbb">+ Lưu đề tài/bài báo</button>
+    </div>
+  </form>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Loại</th>
+        <th>Thể loại</th>
+        <th>Minh chứng</th>
+        <th>Link minh chứng</th>
+        <th>Điểm quy đổi</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="bang-noidung-dtbb"></tbody>
+  </table>
+</div>
+
+<!-- Cuộc thi -->
+<div class="form-container-wide main-card cuocthi">
+  <h2 class="section-title main-card-title">Cuộc thi</h2>
+  <form autocomplete="off">
+    <div class="input-grid cuocthi-input-grid"></div>
+    <div class="button-row">
+      <button type="button" class="add-btn luu-cuochthi">+ Lưu cuộc thi</button>
+    </div>
+  </form>
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Cấp</th>
+        <th>Minh chứng</th>
+        <th>Link minh chứng</th>
+        <th>Điểm quy đổi</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="bang-noidung-cuochthi"></tbody>
+  </table>
+</div>
+<!--Cac hoat dong khac-->
+      <div class="form-container-wide form-container-hoatdongkhac">
+  <h2 class="section-title" style="font-size:1.45rem;text-align:center;margin-bottom:16px;">Các hoạt động khác</h2>
+  <form id="form-hoatdongkhac" autocomplete="off">
+    <div class="other-activity-choice-row">
+      <div class="other-act-group">
+        <label>Hoạt động nghiên cứu khoa học</label>
+        <select class="other-act-select" id="chon-nckh">
+          <option value="khong">Không</option>
+          <option value="co">Có</option>
+        </select>
       </div>
-      <!-- Bài báo -->
-      <div class="form-container-wide">
-        <h2 class="section-title">III. Bài báo</h2>
-        <form autocomplete="off">
-          <div class="input-grid">
-            <!-- <input type="text" class="input tenbaibao" placeholder="Tên bài báo">
-            <input type="text" class="input theloai-bb" placeholder="Thể loại">
-            <input type="text" class="input minhchung-bb" placeholder="Minh chứng">
-            <input type="text" class="input tacgia" placeholder="Tác giả">
-            <span></span>
-            <input type="text" class="input nghiemthu-bb" placeholder="Nghiệm thu">
-            <input type="text" class="input ketqua-bb" placeholder="Kết quả"> -->
-          </div>
-          <div class="button-row">
-            <button type="button" class="add-btn luu-bb">+ Lưu bài báo</button>
-          </div>
-        </form>
-        <table class="product-table bang-baibao">
-          <thead>
-            <tr>
-              <th>Tên bài báo</th>
-              <th>Thể loại</th>
-              <th>Minh chứng</th>
-              <th>Tác giả</th>
-              <th>Nghiệm thu</th>
-              <th>Kết quả</th>
-              <th>Xóa</th>
-            </tr>
-          </thead>
-          <tbody id="bang-noidung-baibao"></tbody>
-        </table>
+      <div class="other-act-group">
+        <label>Hoạt động sinh viên</label>
+        <select class="other-act-select" id="chon-sinhvien">
+          <option value="khong">Không</option>
+          <option value="co">Có</option>
+        </select>
       </div>
+      <div class="other-act-group">
+        <label>Chấm thi</label>
+        <select class="other-act-select" id="chon-chamthi">
+          <option value="khong">Không</option>
+          <option value="co">Có</option>
+        </select>
+      </div>
+      <div class="other-act-group">
+        <label>Nhiệm vụ khác</label>
+        <select class="other-act-select" id="chon-khac">
+          <option value="khong">Không</option>
+          <option value="co">Có</option>
+        </select>
+      </div>
+    </div>
+    <div class="other-activity-detail-box" id="other-activity-detail-box">
+      <!-- Render các mục nhập động tại đây -->
+      <div class="other-activity-empty-message" id="other-activity-empty-message">
+        Không có hoạt động nào được chọn
+      </div>
+    </div>
+    <div class="other-activity-save-btn-row">
+      <button type="button" class="other-act-save-btn" id="luu-hoatdongkhac">Lưu</button>
+    </div>
+  </form>
+  <table class="product-table bang-hoatdongkhac" style="margin-top:28px;">
+    <thead>
+      <tr>
+        <th>Loại hoạt động</th>
+        <th>Thông tin</th>
+        <th>Link minh chứng</th>
+        <th>Hình minh chứng</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="bang-noidung-hoatdongkhac"></tbody>
+  </table>
+</div>
       <!-- Tổng số tiết -->
+      <div class="main-card main-card-noshadow main-card-transparent">
       <div class="tong-so-tiet-row">
         <div id="tong-so-tiet" class="tong-so-tiet-label">Tổng số tiết: 0 - Không đạt</div>
       </div>
-      <div class="action-row">
-        <button class="add-btn luu-tong">💾 Lưu toàn bộ</button>
-        <button class="add-btn in-word">🖨️ In ra Word</button>
-      </div>
     </div>
-    <aside class="right-banner">
-      <div class="banner-card">
-        <h2 class="banner-title">Tổng hợp tiết theo tác giả</h2>
-        <table class="banner-table">
-          <thead>
-            <tr>
-              <th>Tên tác giả</th>
-              <th>Số tiết</th>
-              <th>Kết quả</th>
-            </tr>
-          </thead>
-          <tbody id="bang-tong-hop"></tbody>
-        </table>
-      </div>
-    </aside>
   </div>
   <script src="tiet.js"></script>
 </body>
