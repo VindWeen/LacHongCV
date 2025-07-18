@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded", function() {
   inputThucHienNam && inputThucHienNam.addEventListener("input", updateTongNV);
 
   function updateTongNV() {
-    let thuchien = parseInt(inputThucHienNam.value) || 0;
-    let baoluu = parseInt(inputBaoLuu.value) || 0;
-    inputTongNV.value = thuchien + baoluu;
-  }
+  let thuchien = parseInt(inputThucHienNam.value) || 0;
+  let baoluu = parseInt(inputBaoLuu.value) || 0;
+  inputTongNV.value = thuchien + baoluu;
+}
   updateDinhMucAndPhaiThucHien();
 
   btnLuu.addEventListener("click", function(e) {
@@ -221,7 +221,8 @@ document.addEventListener("DOMContentLoaded", function() {
         all.splice(idx, 1);
         localStorage.setItem("detai_" + user, JSON.stringify(all));
         renderDeTaiTable();
-        
+        updateTongSoTiet && updateTongSoTiet(); 
+  updateThucHienNamFromBang && updateThucHienNamFromBang();
       }
     });
   }
@@ -359,6 +360,7 @@ function renderTableHDK() {
         <td>${item.thongtin}</td>
         <td><a href="${item.link || "#"}" target="_blank">${item.link || ""}</a></td>
         <td>${item.hinh}</td>
+        <td>5</td>
         <td><button type="button" class="btn-xoa-hdk" data-idx="${idx}" style="background:#e57373;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-weight:600;cursor:pointer;">Xóa</button></td>
       </tr>
     `;
@@ -385,7 +387,6 @@ const tbodyGT = document.getElementById('bang-noidung-giaotrinh');
 if (giaotrinhGrid) {
   giaotrinhGrid.innerHTML = `
     <select class="input gt-loaisach">
-      <option value="">Loại sách</option>
       <option value="Sách chuyên khảo">Sách chuyên khảo</option>
       <option value="Tham khảo">Tham khảo</option>
       <option value="Giáo trình">Giáo trình</option>
@@ -501,6 +502,7 @@ if (giaotrinhGrid) {
     data.splice(idx, 1);
     localStorage.setItem('giaotrinh_' + user, JSON.stringify(data));
     renderGiaotrinhList();
+    updateThucHienNamFromBang && updateThucHienNamFromBang();
     checkAndSaveUserFullInfo && checkAndSaveUserFullInfo(user);
     updateTongSoTiet && updateTongSoTiet();
   }
@@ -963,12 +965,12 @@ function updateTongSoTiet() {
   // Cuộc thi
   let cuocthi = JSON.parse(localStorage.getItem('cuocthi_' + user)) || [];
   tong += cuocthi.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
-  // Hoạt động khác: mỗi item 10 điểm
+  // Hoạt động khác: mỗi item 5 điểm
   let hoatdongkhac = JSON.parse(localStorage.getItem('hoatdongkhac_' + user)) || [];
-  tong += hoatdongkhac.length * 10;
+  tong += hoatdongkhac.length * 5;
 
-  // Kết luận: >= 0 là Đạt
-  const datStr = tong >= 0 ? "Đạt" : "Không đạt";
+  // Kết luận: >= 150 là Đạt, còn lại là Không đạt
+  const datStr = tong >= 150 ? "Đạt" : "Không đạt";
   const el = document.getElementById('tong-so-tiet');
   if (el) el.textContent = `Tổng số tiết: ${tong} - ${datStr}`;
 }
@@ -976,23 +978,21 @@ function updateThucHienNamFromBang() {
   const inputThucHienNam = document.querySelector('.input.thuchiennam');
   const user = localStorage.getItem('loggedInUser');
   let tong = 0;
-  // Đề tài khoa học
+  // ... (tính tổng tiết như cũ)
   let detai = JSON.parse(localStorage.getItem('detai_' + user)) || [];
   tong += detai.reduce((s, i) => s + (Number(i.ketqua) || Number(i.diemquydoi) || 0), 0);
-  // Giáo trình
   let giaotrinh = JSON.parse(localStorage.getItem('giaotrinh_' + user)) || [];
   tong += giaotrinh.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
-  // Bài báo
   let baibao = JSON.parse(localStorage.getItem('baibao_' + user)) || [];
   tong += baibao.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
-  // Đề tài/bài báo khác
   let dtbb = JSON.parse(localStorage.getItem('dtbb_' + user)) || [];
   tong += dtbb.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
-  // Cuộc thi
   let cuocthi = JSON.parse(localStorage.getItem('cuocthi_' + user)) || [];
   tong += cuocthi.reduce((s, i) => s + (Number(i.ketqua) || 0), 0);
-  // Hoạt động khác: mỗi item 10 điểm
   let hoatdongkhac = JSON.parse(localStorage.getItem('hoatdongkhac_' + user)) || [];
-  tong += hoatdongkhac.length * 10;
+  tong += hoatdongkhac.length * 5;
   if (inputThucHienNam) inputThucHienNam.value = tong;
+
+  // Gọi cập nhật tổng NV ngay sau khi cập nhật thực hiện trong năm
+  if (typeof updateTongNV === "function") updateTongNV();
 }
