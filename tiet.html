@@ -70,10 +70,10 @@
       <!-- Đề tài khoa học -->
       <!-- ... phần trên giữ nguyên ... -->
       <div class="form-container-wide">
-        <h2 class="section-title">I. Đề tài khoa học</h2>
+        <h2 class="section-title">I. Hoạt động khoa học công nghệ</h2>
         <form autocomplete="off" id="form-detai">
           <div class="input-grid" id="detai-input-grid">
-            <input type="text" class="input hoatdong-nckh" placeholder="Hoạt động NCKH">
+            <input type="text" class="input hoatdong-nckh" placeholder=" Tên đề tài">
             <select class="input cap-detai">
               <option value="" disabled selected>Chọn cấp</option>
               <option value="50">Bộ - 50 tiết</option>
@@ -82,8 +82,8 @@
             </select>
             <select class="input nhiemvu-detai">
               <option value="" disabled selected>Chọn nhiệm vụ</option>
-              <option value="50">Chủ nhiệm - 50 tiết</option>
-              <option value="25">Không chủ nhiệm - 25 tiết</option>
+              <option value="10">Chủ nhiệm - 10 tiết</option>
+              <option value="5">Không chủ nhiệm - 5 tiết</option>
             </select>
             <select class="input nghiemthu-detai">
               <option value="" disabled selected>Nghiệm thu</option>
@@ -123,7 +123,7 @@
       </div>
       <!-- II. Giáo trình -->
 <div class="form-container-wide main-card">
-  <h2 class="section-title main-card-title">II. Giáo trình</h2>
+  <h2 class="section-title main-card-title">II. Sách - giáo trình</h2>
   <form autocomplete="off">
     <div class="input-grid giaotrinh-input-grid"></div>
     <div class="button-row">
@@ -176,32 +176,10 @@
 </div>
 
 <!-- Đề tài/Bài báo khác -->
-<div class="form-container-wide main-card dtbb">
-  <h2 class="section-title main-card-title">Đề tài/Bài báo khác</h2>
-  <form autocomplete="off">
-    <div class="input-grid dtbb-input-grid"></div>
-    <div class="button-row">
-      <button type="button" class="add-btn luu-dtbb">+ Lưu đề tài/bài báo</button>
-    </div>
-  </form>
-  <table class="product-table">
-    <thead>
-      <tr>
-        <th>Loại</th>
-        <th>Thể loại</th>
-        <th>Minh chứng</th>
-        <th>Link minh chứng</th>
-        <th>Điểm quy đổi</th>
-        <th>Xóa</th>
-      </tr>
-    </thead>
-    <tbody id="bang-noidung-dtbb"></tbody>
-  </table>
-</div>
 
 <!-- Cuộc thi -->
 <div class="form-container-wide main-card cuocthi">
-  <h2 class="section-title main-card-title">Cuộc thi</h2>
+  <h2 class="section-title main-card-title">IV. Cuộc thi khoa học công nghệ</h2>
   <form autocomplete="off">
     <div class="input-grid cuocthi-input-grid"></div>
     <div class="button-row">
@@ -223,18 +201,18 @@
 </div>
 <!--Cac hoat dong khac-->
       <div class="form-container-wide form-container-hoatdongkhac">
-  <h2 class="section-title" style="font-size:1.45rem;text-align:center;margin-bottom:16px;">Các hoạt động khác</h2>
+  <h2 class="section-title" style="font-size:1.45rem;text-align:center;margin-bottom:16px;">V. Các hoạt động khác</h2>
   <form id="form-hoatdongkhac" autocomplete="off">
     <div class="other-activity-choice-row">
       <div class="other-act-group">
-        <label>Hoạt động nghiên cứu khoa học</label>
+        <label>Phản biện khoa học</label>
         <select class="other-act-select" id="chon-nckh">
           <option value="khong">Không</option>
           <option value="co">Có</option>
         </select>
       </div>
       <div class="other-act-group">
-        <label>Hoạt động sinh viên</label>
+        <label>Hướng dẫn sinh viên NCKH</label>
         <select class="other-act-select" id="chon-sinhvien">
           <option value="khong">Không</option>
           <option value="co">Có</option>
@@ -272,6 +250,7 @@
         <th>Thông tin</th>
         <th>Link minh chứng</th>
         <th>Hình minh chứng</th>
+        <th>Điểm quy đổi</th>
         <th>Xóa</th>
       </tr>
     </thead>
