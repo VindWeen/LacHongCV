@@ -25,7 +25,10 @@ function renderTable() {
   keys.forEach((key, idx) => {
     let d = getUserInfo(key);
     if (!d) return;
-    let tongnv = Number(d.tongnv) || 0;
+    // Luôn tính lại tổng tiết NV thay vì lấy d.tongnv
+    let thuchiennam = Number(d.thuchiennam) || 0;
+    let baoluu = Number(d.baoluu) || 0;
+    let tongnv = thuchiennam + baoluu;
     let phaituchien = Number(d.phaituchien) || 0;
     let ketqua = tongnv - phaituchien;
     let ketluan = (ketqua > 50) ? "Đạt" : "Không đạt";
@@ -41,7 +44,7 @@ function renderTable() {
         <td>${d.phaituchien || ""}</td>
         <td>${d.baoluu || ""}</td>
         <td>${d.thuchiennam || ""}</td>
-        <td>${d.tongnv || ""}</td>
+        <td>${tongnv}</td>
         <td>${ketqua}</td>
         <td style="font-weight:700;${ketluan==="Đạt"?"color:#26b54c":"color:#d32f2f"}">${ketluan}</td>
         <td>
@@ -86,24 +89,37 @@ document.addEventListener("DOMContentLoaded", function() {
   const btnPrint = document.getElementById('btnPrintWord');
   if (btnPrint) {
     btnPrint.onclick = function() {
-      // Tạo html riêng cho nội dung in
-      const printContents = document.querySelector('.main-container').innerHTML;
+      // Lấy nội dung bảng cần xuất
+      const mainTitle = document.querySelector('.main-title')?.outerHTML || '';
+      const tableHtml = document.getElementById('userTable')?.outerHTML || '';
       const style = `
         <style>
-          body { background: #fff !important; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+          body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; }
           .main-title { text-align: center; font-size: 1.5rem; color: #1a237e; margin-bottom: 18px; }
-          .user-table { width: 100%; border-collapse: collapse; background: #fff;}
-          .user-table th { background: #1976d2; color: #fff; font-size: 1.08rem; -webkit-print-color-adjust: exact; print-color-adjust: exact;}
-          .user-table td, .user-table th { border: 1px solid #ccc; padding: 8px; font-size: 1.03rem;}
+          table { width: 100%; border-collapse: collapse; background: #fff;}
+          th { background: #1976d2; color: #fff; font-size: 1.08rem; -webkit-print-color-adjust: exact; print-color-adjust: exact;}
+          td, th { border: 1px solid #ccc; padding: 8px; font-size: 1.03rem;}
         </style>
       `;
-      const printWindow = window.open('', '', 'height=900,width=1100');
-      printWindow.document.write('<html><head><title>In danh sách nhân viên</title>' + style + '</head><body>');
-      printWindow.document.write(printContents);
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => printWindow.print(), 400); // đợi css load
+      const header = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office'
+              xmlns:w='urn:schemas-microsoft-com:office:word'
+              xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset="utf-8"><title>Xuất Word</title>${style}</head><body>
+      `;
+      const footer = "</body></html>";
+      const html = header + mainTitle + tableHtml + footer;
+
+      // Tạo Blob và tải xuống file .doc
+      const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = "Danh_sach_nhan_vien.doc";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
   }
 });
